@@ -56,36 +56,36 @@ export const SplitBillsHub: React.FC = () => {
   };
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900/80 border border-slate-800/80 shadow-2xl backdrop-blur-xl space-y-6">
+    <div className="rounded-3xl p-6 sm:p-8 bg-white dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800/80 shadow-sm dark:shadow-2xl backdrop-blur-xl space-y-6">
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-400 border border-blue-500/20">
+          <div className="p-3 rounded-2xl bg-blue-500/10 text-blue-600 dark:text-blue-400 border border-blue-500/20">
             <Users className="w-6 h-6" />
           </div>
           <div>
-            <h3 className="text-lg font-black text-white">Split Bills & IOUs Hub</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="text-lg font-black text-slate-900 dark:text-white">Split Bills & IOUs Hub</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Track who owes you, shared group tabs, and settle debts in 1 click.
             </p>
           </div>
         </div>
 
         <div className="flex items-center gap-3">
-          <div className="p-3 rounded-2xl bg-slate-950 border border-slate-800 text-right">
-            <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
+          <div className="p-3 rounded-2xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-right">
+            <span className="text-[10px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
               Total To Collect
             </span>
-            <span className="text-base font-extrabold text-emerald-400">
+            <span className="text-base font-extrabold text-emerald-600 dark:text-emerald-400">
               +{formatCurrency(totalOwedToYou, userProfile.currencySymbol)}
             </span>
           </div>
 
           <button
             onClick={() => setIsAdding(!isAdding)}
-            className="flex items-center gap-1.5 px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold rounded-xl border border-slate-700 transition-all"
+            className="flex items-center gap-1.5 px-3 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 text-xs font-bold rounded-xl border border-slate-200 dark:border-slate-700 transition-all"
           >
-            <UserPlus className="w-4 h-4 text-emerald-400" />
+            <UserPlus className="w-4 h-4 text-emerald-500 dark:text-emerald-400" />
             <span>Add Friend</span>
           </button>
         </div>
@@ -93,13 +93,13 @@ export const SplitBillsHub: React.FC = () => {
 
       {/* Add Friend Form */}
       {isAdding && (
-        <form onSubmit={handleAddFriend} className="flex gap-2 p-3 bg-slate-950 rounded-2xl border border-slate-800">
+        <form onSubmit={handleAddFriend} className="flex gap-2 p-3 bg-slate-50 dark:bg-slate-950 rounded-2xl border border-slate-200 dark:border-slate-800">
           <input
             type="text"
             placeholder="Friend's full name (e.g. Vikram Seth)"
             value={newFriendName}
             onChange={(e) => setNewFriendName(e.target.value)}
-            className="flex-1 bg-transparent px-3 py-1.5 text-xs text-white placeholder-slate-500 focus:outline-none"
+            className="flex-1 bg-transparent px-3 py-1.5 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none"
             autoFocus
           />
           <button
@@ -113,19 +113,19 @@ export const SplitBillsHub: React.FC = () => {
 
       {/* Friends Roster Pills */}
       <div>
-        <span className="text-xs font-bold uppercase tracking-wider text-slate-400 block mb-2">
+        <span className="text-xs font-bold uppercase tracking-wider text-slate-500 dark:text-slate-400 block mb-2">
           Your Split Circle ({friends.length})
         </span>
         <div className="flex items-center gap-2 overflow-x-auto pb-1.5 no-scrollbar">
           {friends.map((f) => (
             <div
               key={f.id}
-              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-800 shrink-0"
+              className="flex items-center gap-2 px-3 py-2 rounded-xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 shrink-0"
             >
               <div className="w-6 h-6 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-[10px] font-black text-white">
                 {f.avatar || f.name.substring(0, 2)}
               </div>
-              <span className="text-xs font-semibold text-slate-200">{f.name}</span>
+              <span className="text-xs font-semibold text-slate-700 dark:text-slate-200">{f.name}</span>
             </div>
           ))}
         </div>
@@ -133,36 +133,36 @@ export const SplitBillsHub: React.FC = () => {
 
       {/* Unsettled Items List */}
       <div className="space-y-3 pt-2">
-        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+        <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
           Outstanding Split Balances
         </h4>
 
         {unsettledItems.length === 0 ? (
-          <div className="p-8 text-center text-slate-400 text-sm bg-slate-950/70 rounded-2xl border border-dashed border-slate-800">
+          <div className="p-8 text-center text-slate-500 dark:text-slate-400 text-sm bg-slate-50 dark:bg-slate-950/70 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800">
             All split expenses are fully settled up. No outstanding balances.
           </div>
         ) : (
           unsettledItems.map((item, idx) => (
             <div
               key={`${item.txId}-${item.friendId}-${idx}`}
-              className="flex items-center justify-between p-4 rounded-2xl bg-slate-950/70 border border-slate-800 hover:border-slate-700 transition-all"
+              className="flex items-center justify-between p-4 rounded-2xl bg-white dark:bg-slate-950/70 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm dark:shadow-none transition-all"
             >
               <div className="flex items-center gap-3 min-w-0">
-                <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
+                <div className="w-10 h-10 rounded-2xl bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border border-emerald-500/20 flex items-center justify-center shrink-0">
                   <ArrowDownLeft className="w-5 h-5" />
                 </div>
                 <div>
-                  <div className="text-sm font-bold text-white flex items-center gap-1.5">
+                  <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-1.5">
                     <span>{item.friendName}</span>
-                    <span className="text-xs text-slate-400 font-normal">owes you for</span>
-                    <span className="text-slate-200">{item.merchant}</span>
+                    <span className="text-xs text-slate-500 dark:text-slate-400 font-normal">owes you for</span>
+                    <span className="text-slate-700 dark:text-slate-200">{item.merchant}</span>
                   </div>
-                  <span className="text-xs text-slate-500 block mt-0.5">{item.date}</span>
+                  <span className="text-xs text-slate-400 dark:text-slate-500 block mt-0.5">{item.date}</span>
                 </div>
               </div>
 
               <div className="flex items-center gap-3 shrink-0">
-                <span className="text-sm sm:text-base font-black text-emerald-400">
+                <span className="text-sm sm:text-base font-black text-emerald-600 dark:text-emerald-400">
                   +{formatCurrency(item.amount, userProfile.currencySymbol)}
                 </span>
                 <button

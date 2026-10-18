@@ -77,17 +77,17 @@ export const ReceiptScannerModal: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-colors"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+              <div className="p-2 rounded-xl bg-amber-50 dark:bg-amber-500/10 text-amber-600 dark:text-amber-400 border border-amber-200 dark:border-amber-500/20">
                 <Camera className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-white">Receipt & Bill Scanner</h3>
-                <span className="text-xs text-slate-400">Capture or upload your receipt photo to log expenses</span>
+                <h3 className="font-bold text-base text-slate-900 dark:text-white">Receipt & Bill Scanner</h3>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Capture or upload your receipt photo to log expenses</span>
               </div>
             </div>
 
@@ -98,7 +98,7 @@ export const ReceiptScannerModal: React.FC = () => {
                 setAmount('');
                 setMerchant('');
               }}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -107,12 +107,12 @@ export const ReceiptScannerModal: React.FC = () => {
           <div className="p-6 space-y-4">
             {/* Upload or Drop Area */}
             {!imagePreview ? (
-              <label className="block p-8 border-2 border-dashed border-slate-800 hover:border-amber-500/50 rounded-2xl text-center cursor-pointer transition-all bg-slate-950/50 group">
-                <div className="w-12 h-12 rounded-2xl bg-slate-800 group-hover:bg-amber-500/20 flex items-center justify-center mx-auto mb-3 text-slate-400 group-hover:text-amber-400 transition-colors">
+              <label className="block p-8 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-amber-500/50 rounded-2xl text-center cursor-pointer transition-all bg-slate-50 dark:bg-slate-950/50 group">
+                <div className="w-12 h-12 rounded-2xl bg-slate-100 dark:bg-slate-800 group-hover:bg-amber-500/20 flex items-center justify-center mx-auto mb-3 text-slate-500 dark:text-slate-400 group-hover:text-amber-500 dark:group-hover:text-amber-400 transition-colors">
                   <Upload className="w-6 h-6" />
                 </div>
-                <h4 className="text-sm font-bold text-white mb-1">Upload Receipt or Bill Photo</h4>
-                <p className="text-xs text-slate-400 max-w-xs mx-auto">
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white mb-1">Upload Receipt or Bill Photo</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 max-w-xs mx-auto">
                   Drag & drop an image or click to select from your device
                 </p>
                 <input
@@ -124,17 +124,17 @@ export const ReceiptScannerModal: React.FC = () => {
               </label>
             ) : (
               <div className="space-y-4">
-                <div className="relative rounded-2xl overflow-hidden border border-slate-800 bg-slate-950 max-h-44 flex items-center justify-center">
+                <div className="relative rounded-2xl overflow-hidden border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-950 max-h-44 flex items-center justify-center">
                   <img
                     src={imagePreview}
                     alt="Receipt Preview"
-                    className="w-full h-full object-cover opacity-80"
+                    className="w-full h-full object-cover opacity-85"
                   />
 
                   {/* Scanning beam animation */}
                   {isScanning && (
                     <div className="absolute inset-0 bg-gradient-to-b from-transparent via-amber-400/20 to-transparent flex items-center justify-center">
-                      <div className="px-4 py-2 rounded-xl bg-slate-900/90 text-amber-300 text-xs font-bold flex items-center gap-2 border border-amber-500/40 shadow-xl">
+                      <div className="px-4 py-2 rounded-xl bg-white/90 dark:bg-slate-900/90 text-amber-600 dark:text-amber-300 text-xs font-bold flex items-center gap-2 border border-amber-500/40 shadow-xl">
                         <ScanLine className="w-4 h-4 animate-spin" />
                         <span>Processing receipt...</span>
                       </div>
@@ -143,10 +143,10 @@ export const ReceiptScannerModal: React.FC = () => {
                 </div>
 
                 {/* Form to verify extracted data */}
-                <form onSubmit={handleCommit} className="space-y-3 bg-slate-950 p-4 rounded-2xl border border-slate-800">
+                <form onSubmit={handleCommit} className="space-y-3 bg-slate-50 dark:bg-slate-950 p-4 rounded-2xl border border-slate-200 dark:border-slate-800">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 mb-1">
+                      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
                         Merchant or Store Name
                       </label>
                       <input
@@ -155,12 +155,12 @@ export const ReceiptScannerModal: React.FC = () => {
                         onChange={(e) => setMerchant(e.target.value)}
                         placeholder="e.g. Nature Basket, Restaurant"
                         required
-                        className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-white focus:outline-none focus:border-emerald-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
                       />
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 mb-1">
+                      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
                         Receipt Amount ({userProfile.currencySymbol})
                       </label>
                       <input
@@ -170,20 +170,20 @@ export const ReceiptScannerModal: React.FC = () => {
                         onChange={(e) => setAmount(e.target.value)}
                         placeholder="Enter total bill amount"
                         required
-                        className="w-full px-3 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-emerald-400 font-bold focus:outline-none focus:border-emerald-500"
+                        className="w-full px-3 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-emerald-600 dark:text-emerald-400 font-bold focus:outline-none focus:border-emerald-500"
                       />
                     </div>
                   </div>
 
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 mb-1">
+                      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
                         Category
                       </label>
                       <select
                         value={categoryId}
                         onChange={(e) => setCategoryId(e.target.value)}
-                        className="w-full px-2.5 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 focus:outline-none"
+                        className="w-full px-2.5 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-200 focus:outline-none"
                       >
                         {categories.filter((c) => c.type === 'expense').map((c) => (
                           <option key={c.id} value={c.id}>{c.name}</option>
@@ -192,13 +192,13 @@ export const ReceiptScannerModal: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 mb-1">
+                      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
                         Account / Method
                       </label>
                       <select
                         value={accountId}
                         onChange={(e) => setAccountId(e.target.value)}
-                        className="w-full px-2.5 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 focus:outline-none"
+                        className="w-full px-2.5 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-200 focus:outline-none"
                       >
                         {accounts.map((acc) => (
                           <option key={acc.id} value={acc.id}>{acc.name}</option>
@@ -207,14 +207,14 @@ export const ReceiptScannerModal: React.FC = () => {
                     </div>
 
                     <div>
-                      <label className="block text-xs font-semibold text-slate-400 mb-1">
+                      <label className="block text-xs font-semibold text-slate-500 dark:text-slate-400 mb-1">
                         Date
                       </label>
                       <input
                         type="date"
                         value={date}
                         onChange={(e) => setDate(e.target.value)}
-                        className="w-full px-2.5 py-2 bg-slate-900 border border-slate-800 rounded-xl text-xs text-slate-200 focus:outline-none"
+                        className="w-full px-2.5 py-2 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl text-xs text-slate-900 dark:text-slate-200 focus:outline-none"
                       />
                     </div>
                   </div>
@@ -227,7 +227,7 @@ export const ReceiptScannerModal: React.FC = () => {
                         setAmount('');
                         setMerchant('');
                       }}
-                      className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-slate-400 hover:text-white text-xs font-semibold rounded-xl border border-slate-800 transition-colors"
+                      className="px-4 py-2 bg-white dark:bg-slate-900 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-800 transition-colors"
                     >
                       Clear
                     </button>

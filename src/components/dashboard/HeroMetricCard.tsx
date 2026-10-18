@@ -58,20 +58,20 @@ export const HeroMetricCard: React.FC = () => {
   const isSpendLower = summary.changePercentage <= 0;
 
   return (
-    <div className="rounded-2xl p-6 sm:p-8 bg-slate-900 border border-slate-800 shadow-sm">
+    <div className="rounded-2xl p-6 sm:p-8 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-glass">
       {/* Top row: Selector & Time horizon */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
         <div>
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
             Total Spending
           </span>
-          <span className="text-xs text-slate-500">
+          <span className="text-xs text-slate-500 dark:text-slate-400">
             {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })} • All accounts
           </span>
         </div>
 
         {/* Weekly / Monthly / Yearly toggles */}
-        <div className="flex items-center p-1 bg-slate-950 border border-slate-800 rounded-xl">
+        <div className="flex items-center p-1 bg-slate-100 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl">
           {(['week', 'month', 'year'] as const).map((r) => (
             <button
               key={r}
@@ -79,7 +79,7 @@ export const HeroMetricCard: React.FC = () => {
               className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
                 timeRange === r
                   ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
-                  : 'text-slate-400 hover:text-slate-200'
+                  : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
               }`}
             >
               {r === 'week' ? 'Week' : r === 'month' ? 'Month' : 'Year'}
@@ -93,7 +93,7 @@ export const HeroMetricCard: React.FC = () => {
         <div className="flex items-baseline gap-3 flex-wrap">
           <motion.h1
             key={displayValue}
-            className="text-4xl sm:text-6xl font-black tracking-tight text-white font-sans"
+            className="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white font-sans"
           >
             {formatCurrency(displayValue, userProfile.currencySymbol, false)}
           </motion.h1>
@@ -103,8 +103,8 @@ export const HeroMetricCard: React.FC = () => {
             <div
               className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${
                 isSpendLower
-                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
-                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+                  ? 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20'
+                  : 'bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/20'
               }`}
             >
               {isSpendLower ? (
@@ -117,7 +117,7 @@ export const HeroMetricCard: React.FC = () => {
               </span>
             </div>
           ) : (
-            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700">
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-400 border border-slate-200 dark:border-slate-700">
               <span>Current Cycle</span>
             </div>
           )}
@@ -128,44 +128,44 @@ export const HeroMetricCard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="flex items-center gap-2 pt-1 text-amber-300 text-sm font-medium"
+            className="flex items-center gap-2 pt-1 text-amber-600 dark:text-amber-300 text-sm font-medium"
           >
-            <Clock className="w-4 h-4 text-amber-400" />
+            <Clock className="w-4 h-4 text-amber-500 dark:text-amber-400" />
             <span>
-              Equivalent to <strong className="text-amber-200 font-bold">{timeCost.formatted}</strong> of your working hours
+              Equivalent to <strong className="text-amber-700 dark:text-amber-200 font-bold">{timeCost.formatted}</strong> of your working hours
             </span>
             <button
               onClick={() => setTimeCostMode(false)}
-              className="text-xs text-slate-400 hover:text-slate-200 underline ml-2 cursor-pointer"
+              className="text-xs text-slate-500 dark:text-slate-400 hover:text-slate-800 dark:hover:text-slate-200 underline ml-2 cursor-pointer"
             >
               (switch back)
             </button>
           </motion.div>
         ) : (
-          <p className="text-xs sm:text-sm text-slate-400">
+          <p className="text-xs sm:text-sm text-slate-500 dark:text-slate-400">
             Total recorded outflow across bank accounts, UPI wallets, and cards
           </p>
         )}
       </div>
 
       {/* Income vs Outflow Balance Bar */}
-      <div className="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-6">
+      <div className="mt-8 pt-6 border-t border-slate-200 dark:border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-6">
         <div>
-          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
+          <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-medium mb-1">
             Total Income
           </span>
-          <span className="text-lg sm:text-xl font-bold text-emerald-400">
+          <span className="text-lg sm:text-xl font-bold text-emerald-600 dark:text-emerald-400">
             +{formatCurrency(summary.incomeThisMonth, userProfile.currencySymbol)}
           </span>
         </div>
 
         <div>
-          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
+          <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-medium mb-1">
             Net Savings
           </span>
           <span
             className={`text-lg sm:text-xl font-bold ${
-              summary.incomeThisMonth >= summary.spentThisMonth ? 'text-teal-400' : 'text-rose-400'
+              summary.incomeThisMonth >= summary.spentThisMonth ? 'text-teal-600 dark:text-teal-400' : 'text-rose-600 dark:text-rose-400'
             }`}
           >
             {formatCurrency(summary.incomeThisMonth - summary.spentThisMonth, userProfile.currencySymbol)}
@@ -173,10 +173,10 @@ export const HeroMetricCard: React.FC = () => {
         </div>
 
         <div className="col-span-2 sm:col-span-1">
-          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
+          <span className="text-xs text-slate-500 dark:text-slate-400 uppercase tracking-wider block font-medium mb-1">
             Monthly Target Budget
           </span>
-          <span className="text-lg sm:text-xl font-bold text-white">
+          <span className="text-lg sm:text-xl font-bold text-slate-900 dark:text-white">
             {formatCurrency(userProfile.overallMonthlyBudget, userProfile.currencySymbol)}
           </span>
         </div>

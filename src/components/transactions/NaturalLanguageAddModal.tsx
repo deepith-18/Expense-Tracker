@@ -113,23 +113,23 @@ export const NaturalLanguageAddModal: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          className="w-full max-w-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-colors"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+              <div className="p-2 rounded-xl bg-indigo-50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/20">
                 <MessageSquareCode className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-bold text-base text-white">Quick Text Add</h3>
-                <span className="text-xs text-slate-400">Type or dictate multiple expenses in plain text</span>
+                <h3 className="font-bold text-base text-slate-900 dark:text-white">Quick Text Add</h3>
+                <span className="text-xs text-slate-500 dark:text-slate-400">Type or dictate multiple expenses in plain text</span>
               </div>
             </div>
 
             <button
               onClick={() => setNlpModalOpen(false)}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -143,7 +143,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 placeholder="e.g. chai 40 and auto 120 yesterday"
-                className="w-full bg-slate-950 border border-slate-800 rounded-2xl p-4 pr-12 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors resize-none font-medium"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-2xl p-4 pr-12 text-sm text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-indigo-500 transition-colors resize-none font-medium"
               />
               <button
                 type="button"
@@ -152,7 +152,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
                 className={`absolute right-3.5 bottom-4 p-2 rounded-xl transition-all ${
                   isListening
                     ? 'bg-rose-500 text-white animate-pulse'
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700 shadow-sm'
                 }`}
               >
                 {isListening ? <MicOff className="w-4 h-4" /> : <Mic className="w-4 h-4" />}
@@ -169,7 +169,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
                   <button
                     key={p}
                     onClick={() => setInput(p)}
-                    className="px-2.5 py-1 rounded-lg bg-slate-800/60 hover:bg-slate-800 text-slate-300 text-xs border border-slate-700/60 transition-colors"
+                    className="px-2.5 py-1 rounded-lg bg-slate-100 dark:bg-slate-800/60 hover:bg-slate-200 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs border border-slate-200 dark:border-slate-700/60 transition-colors"
                   >
                     "{p}"
                   </button>
@@ -180,18 +180,18 @@ export const NaturalLanguageAddModal: React.FC = () => {
             {/* Live Parsed Preview Cards */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider">
                   Parsed Items ({parsedItems.length})
                 </span>
                 {parsedItems.length > 0 && (
-                  <span className="text-xs text-emerald-400 font-bold">
+                  <span className="text-xs text-emerald-600 dark:text-emerald-400 font-bold">
                     Total: {formatCurrency(parsedItems.reduce((acc, i) => acc + i.amount, 0), userProfile.currencySymbol)}
                   </span>
                 )}
               </div>
 
               {parsedItems.length === 0 ? (
-                <div className="py-6 text-center text-slate-400 text-xs border border-dashed border-slate-800 rounded-2xl">
+                <div className="py-6 text-center text-slate-500 dark:text-slate-400 text-xs border border-dashed border-slate-200 dark:border-slate-800 rounded-2xl bg-slate-50/50 dark:bg-transparent">
                   Type an expression like "chai 40 and auto 120 yesterday" above to preview parsed items.
                 </div>
               ) : (
@@ -201,7 +201,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
                     return (
                       <div
                         key={idx}
-                        className="flex items-center justify-between p-3 rounded-2xl bg-slate-950/80 border border-slate-800"
+                        className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800"
                       >
                         <div className="flex items-center gap-3">
                           <div
@@ -211,25 +211,25 @@ export const NaturalLanguageAddModal: React.FC = () => {
                             <IconHelper name={cat?.icon || 'Tag'} className="w-4 h-4" />
                           </div>
                           <div>
-                            <div className="text-sm font-bold text-white flex items-center gap-2">
+                            <div className="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
                               <span>{item.merchant}</span>
-                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-800 text-slate-400">
+                              <span className="text-[10px] font-semibold px-2 py-0.5 rounded-full bg-slate-200 dark:bg-slate-800 text-slate-700 dark:text-slate-400">
                                 {cat?.name}
                               </span>
                             </div>
-                            <div className="flex items-center gap-3 text-xs text-slate-400 mt-0.5">
+                            <div className="flex items-center gap-3 text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                               <span className="flex items-center gap-1">
-                                <Calendar className="w-3 h-3 text-slate-500" />
+                                <Calendar className="w-3 h-3 text-slate-400 dark:text-slate-500" />
                                 {item.date}
                               </span>
                               {item.tags.length > 0 && (
-                                <span className="text-indigo-400">#{item.tags.join(' #')}</span>
+                                <span className="text-indigo-600 dark:text-indigo-400">#{item.tags.join(' #')}</span>
                               )}
                             </div>
                           </div>
                         </div>
 
-                        <div className="text-base font-black text-emerald-400">
+                        <div className="text-base font-black text-emerald-600 dark:text-emerald-400">
                           {formatCurrency(item.amount, userProfile.currencySymbol)}
                         </div>
                       </div>
@@ -246,7 +246,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
               className={`w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2 shadow-sm ${
                 parsedItems.length > 0
                   ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 active:scale-95'
-                  : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                  : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-200 dark:border-transparent'
               }`}
             >
               <CheckCircle2 className="w-4 h-4" />

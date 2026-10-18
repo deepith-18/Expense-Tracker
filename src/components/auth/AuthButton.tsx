@@ -84,7 +84,7 @@ export const AuthButton: React.FC = () => {
       <div className="relative" ref={dropdownRef}>
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-slate-800 transition-all text-xs text-slate-200"
+          className="flex items-center gap-2 p-1.5 sm:px-2.5 sm:py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-all text-xs text-slate-800 dark:text-slate-200 shadow-sm"
           title="Account & Cloud Sync Options"
         >
           {/* Avatar */}
@@ -92,10 +92,10 @@ export const AuthButton: React.FC = () => {
             <img
               src={currentUser.photoURL}
               alt={currentUser.displayName || 'User'}
-              className="w-6 h-6 rounded-full object-cover ring-1 ring-slate-700"
+              className="w-6 h-6 rounded-full object-cover ring-1 ring-slate-300 dark:ring-slate-700"
             />
           ) : (
-            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-300 font-bold flex items-center justify-center text-[10px] ring-1 ring-emerald-500/30">
+            <div className="w-6 h-6 rounded-full bg-emerald-500/20 text-emerald-600 dark:text-emerald-300 font-bold flex items-center justify-center text-[10px] ring-1 ring-emerald-500/30">
               {initials}
             </div>
           )}
@@ -106,11 +106,11 @@ export const AuthButton: React.FC = () => {
               {currentUser.displayName?.split(' ')[0] || 'Account'}
             </span>
             {syncStatus === 'syncing' ? (
-              <RefreshCw className="w-3.5 h-3.5 text-amber-400 animate-spin" />
+              <RefreshCw className="w-3.5 h-3.5 text-amber-500 animate-spin" />
             ) : syncStatus === 'error' ? (
-              <AlertCircle className="w-3.5 h-3.5 text-rose-400" />
+              <AlertCircle className="w-3.5 h-3.5 text-rose-500" />
             ) : (
-              <Cloud className="w-3.5 h-3.5 text-emerald-400" />
+              <Cloud className="w-3.5 h-3.5 text-emerald-500" />
             )}
             <ChevronDown className="w-3 h-3 text-slate-400" />
           </div>
@@ -118,16 +118,16 @@ export const AuthButton: React.FC = () => {
 
         {/* Dropdown Menu */}
         {isOpen && (
-          <div className="absolute right-0 mt-2 w-64 bg-slate-900 border border-slate-800 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150">
+          <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl shadow-2xl p-2 z-50 animate-in fade-in zoom-in-95 duration-150 transition-colors">
             {/* User details */}
-            <div className="p-2 border-b border-slate-800">
-              <p className="font-semibold text-xs text-white truncate">
+            <div className="p-2 border-b border-slate-100 dark:border-slate-800">
+              <p className="font-semibold text-xs text-slate-900 dark:text-white truncate">
                 {currentUser.displayName || 'Google User'}
               </p>
-              <p className="text-[11px] text-slate-400 truncate">
+              <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
                 {currentUser.email}
               </p>
-              <div className="mt-2 flex items-center gap-1.5 text-[10px] font-medium text-emerald-400 bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-500/20">
+              <div className="mt-2 flex items-center gap-1.5 text-[10px] font-medium text-emerald-700 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-500/10 px-2 py-1 rounded-md border border-emerald-200 dark:border-emerald-500/20">
                 <Cloud className="w-3 h-3 shrink-0" />
                 <span className="truncate">
                   {syncStatus === 'syncing'
@@ -144,9 +144,9 @@ export const AuthButton: React.FC = () => {
               <button
                 onClick={handleForceSync}
                 disabled={isSyncing}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
-                <UploadCloud className={`w-3.5 h-3.5 text-indigo-400 ${isSyncing ? 'animate-bounce' : ''}`} />
+                <UploadCloud className={`w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400 ${isSyncing ? 'animate-bounce' : ''}`} />
                 <span>{isSyncing ? 'Syncing...' : 'Sync Local Data to Cloud'}</span>
               </button>
 
@@ -155,7 +155,7 @@ export const AuthButton: React.FC = () => {
                   setIsOpen(false);
                   setAuthModalOpen(true);
                 }}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-300 hover:text-white hover:bg-slate-800 transition-colors"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
                 <Settings className="w-3.5 h-3.5 text-slate-400" />
                 <span>Firestore Setup & Rules</span>
@@ -163,7 +163,7 @@ export const AuthButton: React.FC = () => {
 
               <button
                 onClick={handleSignOut}
-                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 transition-colors"
+                className="w-full flex items-center gap-2 px-2.5 py-1.5 rounded-lg text-xs text-rose-600 dark:text-rose-400 hover:text-rose-700 dark:hover:text-rose-300 hover:bg-rose-50 dark:hover:bg-rose-500/10 transition-colors"
               >
                 <LogOut className="w-3.5 h-3.5" />
                 <span>Sign Out</span>
@@ -181,7 +181,7 @@ export const AuthButton: React.FC = () => {
       onClick={handleSignIn}
       disabled={isSigningIn}
       title={isFirebaseConfigured ? 'Sign in with Google to sync to Firestore' : 'Click to configure Firebase credentials'}
-      className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-slate-800 transition-all text-xs font-semibold active:scale-95 shadow-sm"
+      className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all text-xs font-semibold active:scale-95 shadow-sm"
     >
       {/* Google "G" icon */}
       <svg className="w-3.5 h-3.5" viewBox="0 0 24 24">
@@ -209,7 +209,7 @@ export const AuthButton: React.FC = () => {
         {isSigningIn ? '...' : 'Sign In'}
       </span>
       {!isFirebaseConfigured && (
-        <span className="w-2 h-2 rounded-full bg-amber-400" title="Setup needed" />
+        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" title="Setup needed" />
       )}
     </button>
   );

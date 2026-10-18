@@ -60,19 +60,19 @@ export const CSVManagerModal: React.FC = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0, scale: 0.95 }}
-          className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
+          className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col transition-colors"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800/80">
             <div className="flex items-center gap-2.5">
-              <div className="p-2 rounded-xl bg-slate-800 text-slate-300">
+              <div className="p-2 rounded-xl bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
                 <FileText className="w-5 h-5" />
               </div>
-              <h3 className="font-extrabold text-base text-white">CSV Data Portability</h3>
+              <h3 className="font-extrabold text-base text-slate-900 dark:text-white">CSV Data Portability</h3>
             </div>
             <button
               onClick={() => setCSVModalOpen(false)}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800"
             >
               <X className="w-5 h-5" />
             </button>
@@ -80,10 +80,10 @@ export const CSVManagerModal: React.FC = () => {
 
           <div className="p-6 space-y-5">
             {/* Export Section */}
-            <div className="p-4 rounded-2xl bg-slate-950/80 border border-slate-800 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/80 border border-slate-200 dark:border-slate-800 flex items-center justify-between">
               <div>
-                <h4 className="text-sm font-bold text-white">Export Ledger</h4>
-                <p className="text-xs text-slate-400 mt-0.5">Download entire transaction ledger as CSV</p>
+                <h4 className="text-sm font-bold text-slate-900 dark:text-white">Export Ledger</h4>
+                <p className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">Download entire transaction ledger as CSV</p>
               </div>
               <button
                 onClick={handleDownload}
@@ -96,14 +96,14 @@ export const CSVManagerModal: React.FC = () => {
 
             {/* Import Section */}
             <div className="space-y-3">
-              <h4 className="text-sm font-bold text-white">Import from CSV</h4>
-              <p className="text-xs text-slate-400">
+              <h4 className="text-sm font-bold text-slate-900 dark:text-white">Import from CSV</h4>
+              <p className="text-xs text-slate-500 dark:text-slate-400">
                 Upload a CSV file or paste spreadsheet rows (Date, Amount, Type, Category, Merchant, Account, Note).
               </p>
 
-              <label className="block p-4 border-2 border-dashed border-slate-800 hover:border-slate-700 rounded-2xl text-center cursor-pointer transition-colors bg-slate-950/40">
+              <label className="block p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 hover:border-slate-400 dark:hover:border-slate-700 rounded-2xl text-center cursor-pointer transition-colors bg-slate-50 dark:bg-slate-950/40">
                 <Upload className="w-6 h-6 text-slate-400 mx-auto mb-1.5" />
-                <span className="text-xs font-semibold text-slate-300 block">Click to upload CSV file</span>
+                <span className="text-xs font-semibold text-slate-700 dark:text-slate-300 block">Click to upload CSV file</span>
                 <input
                   type="file"
                   accept=".csv"
@@ -117,7 +117,7 @@ export const CSVManagerModal: React.FC = () => {
                 placeholder="Or paste CSV content here directly..."
                 value={csvInput}
                 onChange={(e) => setCsvInput(e.target.value)}
-                className="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 text-xs text-white placeholder-slate-500 font-mono focus:outline-none focus:border-emerald-500"
+                className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl p-3 text-xs text-slate-900 dark:text-white placeholder-slate-400 dark:placeholder-slate-500 font-mono focus:outline-none focus:border-emerald-500"
               />
 
               <button
@@ -125,8 +125,8 @@ export const CSVManagerModal: React.FC = () => {
                 disabled={!csvInput.trim()}
                 className={`w-full py-2.5 rounded-xl text-xs font-bold transition-all ${
                   csvInput.trim()
-                    ? 'bg-slate-800 hover:bg-slate-700 text-white'
-                    : 'bg-slate-900 text-slate-600 cursor-not-allowed'
+                    ? 'bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-white'
+                    : 'bg-slate-100 dark:bg-slate-900 text-slate-400 dark:text-slate-600 cursor-not-allowed border border-slate-200 dark:border-transparent'
                 }`}
               >
                 Parse & Import Pasted Rows
@@ -137,8 +137,8 @@ export const CSVManagerModal: React.FC = () => {
               <div
                 className={`p-3 rounded-xl text-xs font-medium flex items-center gap-2 ${
                   importStatus.success
-                    ? 'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30'
-                    : 'bg-rose-500/15 text-rose-400 border border-rose-500/30'
+                    ? 'bg-emerald-50 dark:bg-emerald-500/15 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-500/30'
+                    : 'bg-rose-50 dark:bg-rose-500/15 text-rose-700 dark:text-rose-400 border border-rose-200 dark:border-rose-500/30'
                 }`}
               >
                 {importStatus.success ? <CheckCircle2 className="w-4 h-4" /> : <AlertCircle className="w-4 h-4" />}

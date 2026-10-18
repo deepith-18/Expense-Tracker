@@ -24,4 +24,9 @@ dist-ssr
 *.ntvs*
 *.njsproj
 *.sln
-*.sw?
+# Security & Keys
+deepu*
+*.pem
+*.key
+*.pub
+id_*

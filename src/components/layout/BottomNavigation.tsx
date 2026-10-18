@@ -62,7 +62,7 @@ export const BottomNavigation: React.FC = () => {
         </button>
       </div>
 
-      {navItems.slice(2, 5).map((item) => {
+      {navItems.slice(2, 6).map((item) => {
         const Icon = item.icon;
         const isActive = activeTab === item.tab;
         return (
@@ -70,7 +70,11 @@ export const BottomNavigation: React.FC = () => {
             key={item.tab}
             onClick={() => setActiveTab(item.tab)}
             className={`flex flex-col items-center justify-center py-1 px-2 rounded-xl transition-all ${
-              isActive ? 'text-emerald-400 font-bold' : 'text-slate-400 hover:text-slate-200 font-medium'
+              isActive
+                ? 'text-emerald-500 font-bold'
+                : isDarkMode
+                ? 'text-slate-400 hover:text-slate-200 font-medium'
+                : 'text-slate-500 hover:text-slate-800 font-medium'
             }`}
           >
             <Icon className={`w-5 h-5 ${isActive ? 'stroke-[2.5]' : 'stroke-2'}`} />

@@ -63,16 +63,16 @@ export const WhatIfSimulator: React.FC = () => {
   );
 
   return (
-    <div className="rounded-3xl p-6 sm:p-8 bg-slate-900 border border-slate-800 shadow-sm space-y-6">
+    <div className="rounded-3xl p-6 sm:p-8 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-glass space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="p-2.5 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
             <Calculator className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-white">Savings Projection Simulator</h3>
-            <p className="text-xs text-slate-400">
+            <h3 className="text-lg font-bold text-slate-900 dark:text-white">Savings Projection Simulator</h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400">
               Adjust spending reduction targets on your real expenses to see monthly, annual, and 5-year investment impact.
             </p>
           </div>
@@ -82,15 +82,15 @@ export const WhatIfSimulator: React.FC = () => {
       {/* KPI Highlight Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         {/* Monthly Saved */}
-        <div className="p-5 rounded-xl bg-slate-950 border border-slate-800">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+        <div className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
             Monthly Potential Savings
           </span>
-          <span className="text-2xl sm:text-3xl font-black text-emerald-400 mt-1.5 block">
+          <span className="text-2xl sm:text-3xl font-black text-emerald-600 dark:text-emerald-400 mt-1.5 block">
             +{formatCurrency(totalMonthlySaved, userProfile.currencySymbol)}
           </span>
-          <div className="flex items-center gap-1.5 text-xs text-amber-300 font-medium mt-2">
-            <Clock className="w-3.5 h-3.5 text-amber-400" />
+          <div className="flex items-center gap-1.5 text-xs text-amber-600 dark:text-amber-300 font-medium mt-2">
+            <Clock className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
             <span>
               {totalMonthlySaved > 0 && userProfile.monthlyIncome > 0
                 ? `Saves ${timeRecovered.formatted} of work hours`
@@ -100,28 +100,28 @@ export const WhatIfSimulator: React.FC = () => {
         </div>
 
         {/* 1 Year Saved */}
-        <div className="p-5 rounded-xl bg-slate-950 border border-slate-800">
-          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+        <div className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800">
+          <span className="text-xs font-semibold text-slate-500 dark:text-slate-400 uppercase tracking-wider block">
             1-Year Cumulative Capital
           </span>
-          <span className="text-2xl sm:text-3xl font-black text-cyan-400 mt-1.5 block">
+          <span className="text-2xl sm:text-3xl font-black text-cyan-600 dark:text-cyan-400 mt-1.5 block">
             +{formatCurrency(yearlySaved, userProfile.currencySymbol)}
           </span>
-          <span className="text-xs text-slate-400 mt-2 block">
+          <span className="text-xs text-slate-500 dark:text-slate-400 mt-2 block">
             Direct retained cash over 12 months
           </span>
         </div>
 
         {/* 5 Year Compounding at 12% */}
-        <div className="p-5 rounded-xl bg-slate-950 border border-indigo-500/30">
-          <span className="text-xs font-semibold text-indigo-300 uppercase tracking-wider block">
+        <div className="p-5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-indigo-500/30">
+          <span className="text-xs font-semibold text-indigo-600 dark:text-indigo-300 uppercase tracking-wider block">
             5-Year Invested Growth (12% Return)
           </span>
-          <span className="text-2xl sm:text-3xl font-black text-white mt-1.5 block">
+          <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white mt-1.5 block">
             {formatCurrency(futureValue5Years, userProfile.currencySymbol)}
           </span>
-          <div className="flex items-center gap-1.5 text-xs text-indigo-300 font-medium mt-2">
-            <TrendingUp className="w-3.5 h-3.5 text-indigo-400" />
+          <div className="flex items-center gap-1.5 text-xs text-indigo-600 dark:text-indigo-300 font-medium mt-2">
+            <TrendingUp className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
             <span>
               {futureValue5Years > 0
                 ? `+${formatCurrency(futureValue5Years - totalMonthlySaved * 60, userProfile.currencySymbol)} compounding growth`
@@ -133,12 +133,12 @@ export const WhatIfSimulator: React.FC = () => {
 
       {/* Sliders Section */}
       {activeCategories.length === 0 ? (
-        <div className="p-10 text-center bg-slate-950/60 rounded-2xl border border-dashed border-slate-800 space-y-3">
-          <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20 flex items-center justify-center mx-auto">
+        <div className="p-10 text-center bg-slate-50 dark:bg-slate-950/60 rounded-2xl border border-dashed border-slate-200 dark:border-slate-800 space-y-3">
+          <div className="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 flex items-center justify-center mx-auto">
             <Calculator className="w-6 h-6" />
           </div>
-          <h4 className="text-base font-bold text-white">No Expense Categories Recorded Yet</h4>
-          <p className="text-xs text-slate-400 max-w-md mx-auto leading-relaxed">
+          <h4 className="text-base font-bold text-slate-900 dark:text-white">No Expense Categories Recorded Yet</h4>
+          <p className="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto leading-relaxed">
             Once you log transactions in categories like Food, Commute, or Shopping, this simulator will automatically activate sliders for your real expenses so you can test realistic cutbacks.
           </p>
           <button
@@ -150,8 +150,8 @@ export const WhatIfSimulator: React.FC = () => {
           </button>
         </div>
       ) : (
-        <div className="pt-4 border-t border-slate-800 space-y-4">
-          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-300">
+        <div className="pt-4 border-t border-slate-200 dark:border-slate-800 space-y-4">
+          <h4 className="text-xs font-bold uppercase tracking-wider text-slate-700 dark:text-slate-300">
             Adjust Target Cutbacks on Active Categories
           </h4>
 
@@ -163,16 +163,16 @@ export const WhatIfSimulator: React.FC = () => {
               return (
                 <div
                   key={cat.id}
-                  className="p-4 rounded-2xl bg-slate-950/60 border border-slate-800/80 space-y-2"
+                  className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 space-y-2"
                 >
                   <div className="flex justify-between items-center text-xs">
                     <div className="flex items-center gap-2">
                       <span className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: cat.color }} />
-                      <span className="font-bold text-slate-200">
+                      <span className="font-bold text-slate-800 dark:text-slate-200">
                         {cat.name} (Logged Spend: {formatCurrency(cat.spent, userProfile.currencySymbol)})
                       </span>
                     </div>
-                    <span className="font-extrabold text-emerald-400 text-sm">
+                    <span className="font-extrabold text-emerald-600 dark:text-emerald-400 text-sm">
                       {currentCut}% ({formatCurrency(catSaved, userProfile.currencySymbol)}/mo)
                     </span>
                   </div>
@@ -183,7 +183,7 @@ export const WhatIfSimulator: React.FC = () => {
                     step="5"
                     value={currentCut}
                     onChange={(e) => handleCutChange(cat.id, Number(e.target.value))}
-                    className="w-full accent-emerald-500 h-2 bg-slate-800 rounded-lg cursor-pointer"
+                    className="w-full accent-emerald-500 h-2 bg-slate-200 dark:bg-slate-800 rounded-lg cursor-pointer"
                   />
                 </div>
               );

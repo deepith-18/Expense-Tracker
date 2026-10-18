@@ -115,7 +115,7 @@ export const FinancialHealthScore: React.FC = () => {
 
         {/* Breakdown Vitals */}
         <div className="flex-1 w-full space-y-3">
-          <p className="text-xs text-slate-300 font-medium">
+          <p className="text-xs text-slate-700 dark:text-slate-300 font-medium">
             {tier.desc}
           </p>
 
@@ -123,11 +123,11 @@ export const FinancialHealthScore: React.FC = () => {
             <div className={`p-2.5 rounded-xl border ${
               isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
-              <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-                <Target className="w-3 h-3 text-emerald-400" />
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                <Target className="w-3 h-3 text-emerald-500 dark:text-emerald-400" />
                 <span>Savings Yield</span>
               </div>
-              <p className="text-sm font-bold text-emerald-400 mt-0.5">
+              <p className="text-sm font-bold text-emerald-600 dark:text-emerald-400 mt-0.5">
                 {savingsRate}%
               </p>
             </div>
@@ -135,11 +135,11 @@ export const FinancialHealthScore: React.FC = () => {
             <div className={`p-2.5 rounded-xl border ${
               isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
-              <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-                <Zap className="w-3 h-3 text-amber-400" />
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                <Zap className="w-3 h-3 text-amber-500 dark:text-amber-400" />
                 <span>Budget Burn</span>
               </div>
-              <p className="text-sm font-bold text-amber-400 mt-0.5">
+              <p className="text-sm font-bold text-amber-600 dark:text-amber-400 mt-0.5">
                 {Math.round(burnRatePct)}%
               </p>
             </div>
@@ -147,11 +147,11 @@ export const FinancialHealthScore: React.FC = () => {
             <div className={`p-2.5 rounded-xl border ${
               isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
-              <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-                <ShieldCheck className="w-3 h-3 text-indigo-400" />
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                <ShieldCheck className="w-3 h-3 text-indigo-500 dark:text-indigo-400" />
                 <span>Daily Safe Limit</span>
               </div>
-              <p className="text-sm font-bold text-indigo-400 mt-0.5">
+              <p className="text-sm font-bold text-indigo-600 dark:text-indigo-400 mt-0.5">
                 {formatCurrency(summary.safeToSpendDaily, userProfile.currencySymbol)}
               </p>
             </div>
@@ -159,11 +159,11 @@ export const FinancialHealthScore: React.FC = () => {
             <div className={`p-2.5 rounded-xl border ${
               isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
             }`}>
-              <div className="flex items-center gap-1.5 text-slate-400 text-[11px]">
-                <TrendingUp className="w-3 h-3 text-cyan-400" />
+              <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 text-[11px]">
+                <TrendingUp className="w-3 h-3 text-cyan-500 dark:text-cyan-400" />
                 <span>Streak</span>
               </div>
-              <p className="text-sm font-bold text-cyan-400 mt-0.5">
+              <p className="text-sm font-bold text-cyan-600 dark:text-cyan-400 mt-0.5">
                 {userProfile.streakDays || 5} Days Active
               </p>
             </div>
@@ -172,10 +172,10 @@ export const FinancialHealthScore: React.FC = () => {
       </div>
 
       {/* Top Category Budgets Snapshot */}
-      <div className="mt-4 pt-3 border-t border-slate-800/60">
-        <div className="flex items-center justify-between text-xs font-semibold text-slate-300 mb-2">
+      <div className="mt-4 pt-3 border-t border-slate-200 dark:border-slate-800/60">
+        <div className="flex items-center justify-between text-xs font-semibold text-slate-700 dark:text-slate-300 mb-2">
           <span>Key Category Budget Tracks</span>
-          <span className="text-[11px] text-slate-400">Monthly Targets</span>
+          <span className="text-[11px] text-slate-500 dark:text-slate-400">Monthly Targets</span>
         </div>
         <div className="space-y-2">
           {categories.slice(0, 3).map((cat) => {
@@ -187,12 +187,12 @@ export const FinancialHealthScore: React.FC = () => {
             return (
               <div key={cat.id} className="space-y-1">
                 <div className="flex justify-between items-center text-[11px]">
-                  <span className="text-slate-300 font-medium">{cat.name}</span>
-                  <span className="text-slate-400 font-mono">
+                  <span className="text-slate-700 dark:text-slate-300 font-medium">{cat.name}</span>
+                  <span className="text-slate-500 dark:text-slate-400 font-mono">
                     {formatCurrency(spent, userProfile.currencySymbol)} / {formatCurrency(budget, userProfile.currencySymbol)} ({pct}%)
                   </span>
                 </div>
-                <div className="w-full h-1.5 rounded-full bg-slate-800 overflow-hidden">
+                <div className="w-full h-1.5 rounded-full bg-slate-200 dark:bg-slate-800 overflow-hidden">
                   <div
                     className={`h-full rounded-full transition-all duration-500 ${
                       pct > 90 ? 'bg-rose-500' : pct > 75 ? 'bg-amber-500' : 'bg-emerald-500'

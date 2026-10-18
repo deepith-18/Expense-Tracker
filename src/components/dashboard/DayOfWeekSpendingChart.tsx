@@ -87,7 +87,7 @@ export const DayOfWeekSpendingChart: React.FC = () => {
             </span>
 
             {/* Progress Bar Container */}
-            <div className="flex-1 h-6 bg-slate-950/40 rounded-lg p-0.5 border border-slate-800/80 overflow-hidden relative">
+            <div className="flex-1 h-6 bg-slate-100 dark:bg-slate-950/40 rounded-lg p-0.5 border border-slate-200 dark:border-slate-800/80 overflow-hidden relative">
               <div
                 className={`h-full rounded-md transition-all duration-700 flex items-center justify-end pr-2 ${
                   item.isPeak
@@ -99,7 +99,7 @@ export const DayOfWeekSpendingChart: React.FC = () => {
             </div>
 
             {/* Amount */}
-            <span className={`w-20 text-right font-mono font-semibold ${item.isPeak ? 'text-amber-300' : 'text-slate-300'}`}>
+            <span className={`w-20 text-right font-mono font-semibold ${item.isPeak ? 'text-amber-600 dark:text-amber-300 font-bold' : 'text-slate-700 dark:text-slate-300'}`}>
               {formatCurrency(item.total, userProfile.currencySymbol)}
             </span>
           </div>
@@ -107,24 +107,24 @@ export const DayOfWeekSpendingChart: React.FC = () => {
       </div>
 
       {/* Habit Insights Footer */}
-      <div className="mt-5 pt-3 border-t border-slate-800/60 grid grid-cols-2 gap-3 text-xs">
+      <div className="mt-5 pt-3 border-t border-slate-200 dark:border-slate-800/60 grid grid-cols-2 gap-3 text-xs">
         <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
           isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
         }`}>
-          <PartyPopper className="w-4 h-4 text-purple-400 shrink-0" />
+          <PartyPopper className="w-4 h-4 text-purple-500 dark:text-purple-400 shrink-0" />
           <div>
-            <p className="text-[10px] text-slate-400">Weekend Share</p>
-            <p className="font-bold text-slate-200">{daysData.weekendPct}% of Outflows</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400">Weekend Share</p>
+            <p className="font-bold text-slate-800 dark:text-slate-200">{daysData.weekendPct}% of Outflows</p>
           </div>
         </div>
 
         <div className={`p-2.5 rounded-xl border flex items-center gap-2 ${
           isDarkMode ? 'bg-slate-950/40 border-slate-800' : 'bg-slate-50 border-slate-200'
         }`}>
-          <Coffee className="w-4 h-4 text-emerald-400 shrink-0" />
+          <Coffee className="w-4 h-4 text-emerald-500 dark:text-emerald-400 shrink-0" />
           <div>
-            <p className="text-[10px] text-slate-400">Weekday Average</p>
-            <p className="font-bold text-slate-200">{100 - daysData.weekendPct}% of Outflows</p>
+            <p className="text-[10px] text-slate-500 dark:text-slate-400">Weekday Average</p>
+            <p className="font-bold text-slate-800 dark:text-slate-200">{100 - daysData.weekendPct}% of Outflows</p>
           </div>
         </div>
       </div>

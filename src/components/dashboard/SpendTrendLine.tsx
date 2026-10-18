@@ -68,24 +68,24 @@ export const SpendTrendLine: React.FC = () => {
   }
 
   return (
-    <div className="rounded-2xl p-6 bg-slate-900 border border-slate-800 shadow-sm flex flex-col justify-between">
+    <div className="rounded-2xl p-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-glass flex flex-col justify-between">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20">
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white">Cumulative Spending Trend</h3>
-            <span className="text-xs text-slate-400">Day-by-day accumulated outflow</span>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Cumulative Spending Trend</h3>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Day-by-day accumulated outflow</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+          <div className="flex items-center gap-1.5 text-emerald-600 dark:text-emerald-400 font-medium">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
             <span>Actual Spend</span>
           </div>
-          <div className="flex items-center gap-1.5 text-slate-400 font-medium">
+          <div className="flex items-center gap-1.5 text-slate-500 dark:text-slate-400 font-medium">
             <span className="w-2.5 h-1 border-t-2 border-dashed border-slate-400" />
             <span>Projected</span>
           </div>
@@ -93,9 +93,9 @@ export const SpendTrendLine: React.FC = () => {
       </div>
 
       {currentMonthExpenses.length === 0 ? (
-        <div className="h-64 flex flex-col items-center justify-center text-slate-400 text-xs sm:text-sm text-center px-4">
+        <div className="h-64 flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 text-xs sm:text-sm text-center px-4">
           <span>No expenses recorded for this month yet.</span>
-          <span className="text-slate-500 text-xs mt-1">Daily trend lines will plot automatically as you add transactions.</span>
+          <span className="text-slate-400 dark:text-slate-500 text-xs mt-1">Daily trend lines will plot automatically as you add transactions.</span>
         </div>
       ) : (
         <div className="h-64 w-full pt-2">
@@ -129,21 +129,21 @@ export const SpendTrendLine: React.FC = () => {
                 if (active && payload && payload.length) {
                   const dataPoint = payload[0].payload;
                   return (
-                    <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl shadow-xl text-xs">
-                      <div className="font-bold text-white">{dataPoint.day}</div>
+                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700 p-3 rounded-xl shadow-xl text-xs">
+                      <div className="font-bold text-slate-900 dark:text-white">{dataPoint.day}</div>
                       {dataPoint.spent !== null ? (
                         <div className="mt-1">
-                          <div className="text-emerald-400 font-bold text-sm">
+                          <div className="text-emerald-600 dark:text-emerald-400 font-bold text-sm">
                             {formatCurrency(dataPoint.spent, userProfile.currencySymbol)}
                           </div>
                           {dataPoint.daily > 0 && (
-                            <div className="text-slate-300 text-xs mt-0.5">
+                            <div className="text-slate-600 dark:text-slate-300 text-xs mt-0.5">
                               +{formatCurrency(dataPoint.daily, userProfile.currencySymbol)} on this day
                             </div>
                           )}
                         </div>
                       ) : (
-                        <div className="text-cyan-400 font-bold mt-1">
+                        <div className="text-cyan-600 dark:text-cyan-400 font-bold mt-1">
                           Projected: {formatCurrency(dataPoint.projected, userProfile.currencySymbol)}
                         </div>
                       )}

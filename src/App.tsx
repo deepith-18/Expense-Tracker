@@ -10,6 +10,7 @@ import {
   MessageSquareCode,
   Camera,
   Download,
+  Share2,
 } from 'lucide-react';
 import { useExpenseStore, getEffectiveUid, ActiveTab } from './store/useExpenseStore';
 
@@ -44,11 +45,16 @@ import { SankeyDiagram } from './components/features/SankeyDiagram';
 import { SplitBillsHub } from './components/features/SplitBillsHub';
 import { ReceiptScannerModal } from './components/features/ReceiptScannerModal';
 import { SpotifyWrappedModal } from './components/features/SpotifyWrappedModal';
+import { BudgetGuardCard } from './components/features/BudgetGuardCard';
+import { SubscriptionRadar } from './components/features/SubscriptionRadar';
+import { RunwayCalculator } from './components/features/RunwayCalculator';
+import { SpendingSnapshotModal } from './components/features/SpendingSnapshotModal';
 import { FirebaseSetupModal } from './components/auth/FirebaseSetupModal';
 import { subscribeToAuthState } from './lib/firebase';
 import { subscribeToUserFirestore } from './lib/firestoreSync';
 
 export const App: React.FC = () => {
+  const [isSnapshotOpen, setSnapshotOpen] = React.useState(false);
   const {
     activeTab,
     setActiveTab,
@@ -145,13 +151,13 @@ export const App: React.FC = () => {
         : 'bg-slate-50 text-slate-900 selection:bg-emerald-500/30 selection:text-emerald-800'
     }`}>
       {/* Top Navbar */}
-      <Navbar />
+      <Navbar onOpenSnapshot={() => setSnapshotOpen(true)} />
 
       {/* Main Container */}
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-28 md:pb-12 space-y-6">
         {/* Desktop Navigation Tabs & Quick Action Bar */}
-        <div className="hidden md:flex items-center justify-between gap-4 border-b border-slate-800 pb-3">
-          <div className="flex items-center gap-1.5 p-1 bg-slate-900 border border-slate-800 rounded-xl">
+        <div className="hidden md:flex items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-3">
+          <div className="flex items-center gap-1.5 p-1 bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-xl">
             {tabs.map((tab) => {
               const Icon = tab.icon;
               const isActive = activeTab === tab.id;
@@ -162,7 +168,7 @@ export const App: React.FC = () => {
                   className={`flex items-center gap-2 px-3.5 py-1.5 rounded-lg text-xs font-semibold transition-all ${
                     isActive
                       ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200 hover:bg-slate-800'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200 hover:bg-slate-200/70 dark:hover:bg-slate-800'
                   }`}
                 >
                   <Icon className="w-4 h-4" />
@@ -175,18 +181,27 @@ export const App: React.FC = () => {
           {/* Quick Shortcuts */}
           <div className="flex items-center gap-2">
             <button
-              onClick={() => setNlpModalOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-white text-xs font-medium border border-slate-800 transition-all active:scale-95"
+              onClick={() => setSnapshotOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-850 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-medium border border-slate-200 dark:border-slate-800 transition-all active:scale-95 shadow-sm"
+              title="Share or copy spending snapshot"
             >
-              <MessageSquareCode className="w-3.5 h-3.5 text-indigo-400" />
+              <Share2 className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
+              <span>Snapshot</span>
+            </button>
+
+            <button
+              onClick={() => setNlpModalOpen(true)}
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-850 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-medium border border-slate-200 dark:border-slate-800 transition-all active:scale-95 shadow-sm"
+            >
+              <MessageSquareCode className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
               <span>Quick Text Add</span>
             </button>
 
             <button
               onClick={() => setReceiptScanOpen(true)}
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-850 text-slate-300 hover:text-white text-xs font-medium border border-slate-800 transition-all active:scale-95"
+              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-850 text-slate-700 dark:text-slate-300 hover:text-slate-900 dark:hover:text-white text-xs font-medium border border-slate-200 dark:border-slate-800 transition-all active:scale-95 shadow-sm"
             >
-              <Camera className="w-3.5 h-3.5 text-amber-400" />
+              <Camera className="w-3.5 h-3.5 text-amber-500 dark:text-amber-400" />
               <span>Scan Receipt</span>
             </button>
           </div>
@@ -204,10 +219,19 @@ export const App: React.FC = () => {
               <BurnRateGauge />
             </div>
 
-            {/* New: Cashflow Dynamics & Net Surplus Bar/Line Chart */}
+            {/* Budget Guard & Category Caps */}
+            <BudgetGuardCard />
+
+            {/* Cashflow Dynamics & Net Surplus Bar/Line Chart */}
             <CashflowComparisonChart />
 
-            {/* New: Financial Health Index Dial & Weekly Rhythm Visualizer */}
+            {/* Runway Calculator & Subscription Radar */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <RunwayCalculator />
+              <SubscriptionRadar />
+            </div>
+
+            {/* Financial Health Index Dial & Weekly Rhythm Visualizer */}
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <FinancialHealthScore />
               <DayOfWeekSpendingChart />
@@ -238,6 +262,11 @@ export const App: React.FC = () => {
 
         {activeTab === 'insights' && (
           <div className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <RunwayCalculator />
+              <SubscriptionRadar />
+            </div>
+            <BudgetGuardCard />
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <SpendingPersonalityCard />
               <InsightsFeed />
@@ -276,6 +305,7 @@ export const App: React.FC = () => {
       <CSVManagerModal />
       <CommandPalette />
       <UndoToast />
+      <SpendingSnapshotModal isOpen={isSnapshotOpen} onClose={() => setSnapshotOpen(false)} />
       <FirebaseSetupModal isOpen={isAuthModalOpen} onClose={() => setAuthModalOpen(false)} />
     </div>
   );

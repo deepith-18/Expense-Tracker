@@ -196,12 +196,12 @@ export const QuickAddKeypadModal: React.FC = () => {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 120, scale: 0.95 }}
           transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-          className="w-full max-w-lg bg-slate-900 border border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh]"
+          className="w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-t-3xl sm:rounded-3xl shadow-2xl overflow-hidden flex flex-col max-h-[92vh] transition-colors"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-200 dark:border-slate-800">
             <div className="flex items-center gap-2.5">
-              <span className="font-bold text-base text-white">
+              <span className="font-bold text-base text-slate-900 dark:text-white">
                 {editingTransaction ? 'Edit Transaction' : 'Record Transaction'}
               </span>
               <button
@@ -209,24 +209,24 @@ export const QuickAddKeypadModal: React.FC = () => {
                   setKeypadOpen(false);
                   setNlpModalOpen(true);
                 }}
-                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-750 text-slate-300 hover:text-white text-xs font-medium border border-slate-700 transition-all"
+                className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-750 text-slate-700 dark:text-slate-300 text-xs font-medium border border-slate-200 dark:border-slate-700 transition-all"
                 title="Switch to natural text input"
               >
-                <MessageSquareCode className="w-3.5 h-3.5 text-indigo-400" />
+                <MessageSquareCode className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
                 <span>Type as Text</span>
               </button>
             </div>
 
             <div className="flex items-center gap-2">
               {/* Type Switcher */}
-              <div className="flex p-0.5 bg-slate-950 rounded-xl border border-slate-800">
+              <div className="flex p-0.5 bg-slate-100 dark:bg-slate-950 rounded-xl border border-slate-200 dark:border-slate-800">
                 <button
                   type="button"
                   onClick={() => setType('expense')}
                   className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                     type === 'expense'
                       ? 'bg-rose-500 text-white shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   Expense
@@ -237,7 +237,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                   className={`px-3 py-1 rounded-lg text-xs font-bold transition-all ${
                     type === 'income'
                       ? 'bg-emerald-500 text-slate-950 shadow-sm'
-                      : 'text-slate-400 hover:text-slate-200'
+                      : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-slate-200'
                   }`}
                 >
                   Income
@@ -246,7 +246,7 @@ export const QuickAddKeypadModal: React.FC = () => {
 
               <button
                 onClick={() => setKeypadOpen(false)}
-                className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1.5 rounded-xl text-slate-400 hover:text-slate-700 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -255,11 +255,11 @@ export const QuickAddKeypadModal: React.FC = () => {
 
           <div className="overflow-y-auto px-6 py-4 space-y-4">
             {/* Big Amount Screen */}
-            <div className="text-center py-3 bg-slate-950/80 rounded-2xl border border-slate-800/80 relative flex items-center justify-center">
-              <span className="text-2xl font-bold text-emerald-400 mr-1.5">
+            <div className="text-center py-3 bg-slate-50 dark:bg-slate-950/80 rounded-2xl border border-slate-200 dark:border-slate-800/80 relative flex items-center justify-center">
+              <span className="text-2xl font-bold text-emerald-600 dark:text-emerald-400 mr-1.5">
                 {userProfile.currencySymbol}
               </span>
-              <span className="text-4xl sm:text-5xl font-black text-white tracking-tight font-sans">
+              <span className="text-4xl sm:text-5xl font-black text-slate-900 dark:text-white tracking-tight font-sans">
                 {amountStr}
               </span>
 
@@ -271,7 +271,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                 className={`absolute right-3.5 p-2 rounded-xl transition-all ${
                   isListening
                     ? 'bg-rose-500 text-white animate-pulse'
-                    : 'bg-slate-800 hover:bg-slate-700 text-slate-300'
+                    : 'bg-white dark:bg-slate-800 hover:bg-slate-100 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 shadow-sm border border-slate-200 dark:border-slate-700'
                 }`}
               >
                 <Mic className="w-4 h-4" />
@@ -280,7 +280,7 @@ export const QuickAddKeypadModal: React.FC = () => {
 
             {/* Smart Predictive Category Horizontal Strip */}
             <div>
-              <span className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-2">
+              <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-2">
                 Select Category
               </span>
               <div className="flex items-center gap-2 overflow-x-auto pb-1.5 no-scrollbar">
@@ -296,7 +296,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                         className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all border ${
                           isSelected
                             ? 'bg-emerald-500 text-slate-950 border-emerald-400 shadow-md scale-105'
-                            : 'bg-slate-800/60 text-slate-300 border-slate-700/60 hover:bg-slate-800'
+                            : 'bg-slate-100 dark:bg-slate-800/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-700/60 hover:bg-slate-200 dark:hover:bg-slate-800'
                         }`}
                       >
                         <IconHelper name={cat.icon} className="w-3.5 h-3.5" />
@@ -310,7 +310,7 @@ export const QuickAddKeypadModal: React.FC = () => {
             {/* Merchant and Account row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Merchant / Label
                 </label>
                 <input
@@ -318,18 +318,18 @@ export const QuickAddKeypadModal: React.FC = () => {
                   placeholder="e.g. Swiggy, Uber, Chai"
                   value={merchant}
                   onChange={(e) => setMerchant(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Account / Wallet
                 </label>
                 <select
                   value={selectedAccountId}
                   onChange={(e) => setSelectedAccountId(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 >
                   {accounts.map((acc) => (
                     <option key={acc.id} value={acc.id}>
@@ -343,19 +343,19 @@ export const QuickAddKeypadModal: React.FC = () => {
             {/* Date and Tags row */}
             <div className="grid grid-cols-2 gap-3">
               <div>
-                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Date
                 </label>
                 <input
                   type="date"
                   value={date}
                   onChange={(e) => setDate(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
 
               <div>
-                <label className="text-[11px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
+                <label className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider block mb-1">
                   Tags (comma separated)
                 </label>
                 <input
@@ -363,7 +363,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                   placeholder="food, weekend, office"
                   value={tagsInput}
                   onChange={(e) => setTagsInput(e.target.value)}
-                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-white focus:outline-none focus:border-emerald-500"
+                  className="w-full bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 rounded-xl px-3 py-2 text-xs font-medium text-slate-900 dark:text-white focus:outline-none focus:border-emerald-500"
                 />
               </div>
             </div>
@@ -376,7 +376,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                     key={k}
                     type="button"
                     onClick={() => handleKeyClick(k)}
-                    className="h-12 bg-slate-800/80 hover:bg-slate-700/80 active:bg-emerald-500 active:text-slate-950 text-white font-extrabold text-lg rounded-2xl transition-all shadow-sm active:scale-95"
+                    className="h-12 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/80 dark:hover:bg-slate-700/80 active:bg-emerald-500 active:text-slate-950 text-slate-900 dark:text-white font-extrabold text-lg rounded-2xl transition-all shadow-sm active:scale-95 border border-slate-200/80 dark:border-transparent"
                   >
                     {k}
                   </button>
@@ -387,9 +387,9 @@ export const QuickAddKeypadModal: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => handleKeyClick('BACK')}
-                  className="h-12 bg-slate-800/60 hover:bg-slate-700/60 text-slate-300 font-bold text-sm rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-1.5"
+                  className="h-12 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800/60 dark:hover:bg-slate-700/60 text-slate-700 dark:text-slate-300 font-bold text-sm rounded-2xl transition-all active:scale-95 flex items-center justify-center gap-1.5 border border-slate-200/80 dark:border-transparent"
                 >
-                  <Delete className="w-5 h-5 text-rose-400" />
+                  <Delete className="w-5 h-5 text-rose-500 dark:text-rose-400" />
                   <span>Backspace</span>
                 </button>
 
@@ -400,7 +400,7 @@ export const QuickAddKeypadModal: React.FC = () => {
                   className={`h-12 rounded-2xl font-bold text-sm tracking-wide transition-all active:scale-95 flex items-center justify-center gap-2 shadow-sm ${
                     parseFloat(amountStr) > 0
                       ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950'
-                      : 'bg-slate-800 text-slate-500 cursor-not-allowed'
+                      : 'bg-slate-100 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed border border-slate-200 dark:border-transparent'
                   }`}
                 >
                   <Check className="w-4 h-4 stroke-[2.5]" />

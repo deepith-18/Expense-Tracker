@@ -91,13 +91,13 @@ export const CashflowComparisonChart: React.FC = () => {
         </div>
 
         {/* View Mode Toggle */}
-        <div className="flex items-center p-1 rounded-xl bg-slate-950/60 border border-slate-800/80 self-start sm:self-auto text-xs font-semibold">
+        <div className="flex items-center p-1 rounded-xl bg-slate-100 dark:bg-slate-950/60 border border-slate-200 dark:border-slate-800/80 self-start sm:self-auto text-xs font-semibold">
           <button
             onClick={() => setViewMode('6months')}
             className={`px-3 py-1.5 rounded-lg transition-all ${
               viewMode === '6months'
                 ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Last 6 Months
@@ -107,7 +107,7 @@ export const CashflowComparisonChart: React.FC = () => {
             className={`px-3 py-1.5 rounded-lg transition-all ${
               viewMode === 'recent'
                 ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
-                : 'text-slate-400 hover:text-white'
+                : 'text-slate-600 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white'
             }`}
           >
             Last 4 Months
@@ -190,17 +190,17 @@ export const CashflowComparisonChart: React.FC = () => {
                   const exp = Number(payload.find((p) => p.dataKey === 'expense')?.value || 0);
                   const saved = Math.max(0, inc - exp);
                   return (
-                    <div className="bg-slate-900 border border-slate-700/80 p-3 rounded-xl shadow-2xl text-xs space-y-1.5 min-w-[170px]">
-                      <p className="font-bold text-white border-b border-slate-800 pb-1">{label}</p>
-                      <div className="flex justify-between items-center text-emerald-400">
+                    <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 p-3 rounded-xl shadow-2xl text-xs space-y-1.5 min-w-[170px]">
+                      <p className="font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-800 pb-1">{label}</p>
+                      <div className="flex justify-between items-center text-emerald-600 dark:text-emerald-400">
                         <span>Income:</span>
                         <span className="font-bold font-mono">{formatCurrency(inc, userProfile.currencySymbol)}</span>
                       </div>
-                      <div className="flex justify-between items-center text-rose-400">
+                      <div className="flex justify-between items-center text-rose-600 dark:text-rose-400">
                         <span>Expenses:</span>
                         <span className="font-bold font-mono">{formatCurrency(exp, userProfile.currencySymbol)}</span>
                       </div>
-                      <div className="flex justify-between items-center text-indigo-400 pt-1 border-t border-slate-800 font-semibold">
+                      <div className="flex justify-between items-center text-indigo-600 dark:text-indigo-400 pt-1 border-t border-slate-200 dark:border-slate-800 font-semibold">
                         <span>Net Saved:</span>
                         <span className="font-mono">{formatCurrency(saved, userProfile.currencySymbol)}</span>
                       </div>

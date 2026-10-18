@@ -36,15 +36,15 @@ export const BurnRateGauge: React.FC = () => {
   const strokeDashoffset = 251.2 - (251.2 * gaugePercent) / 100;
 
   return (
-    <div className="rounded-2xl p-6 bg-slate-900 border border-slate-800 shadow-sm flex flex-col justify-between">
+    <div className="rounded-2xl p-6 bg-white dark:bg-slate-900/90 border border-slate-200 dark:border-slate-800 shadow-sm dark:shadow-glass flex flex-col justify-between">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2.5">
-          <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          <div className="p-2 rounded-xl bg-amber-500/10 text-amber-500 dark:text-amber-400 border border-amber-500/20">
             <Flame className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-base font-bold text-white">Projected Burn Rate</h3>
-            <span className="text-xs text-slate-400">Pacing vs monthly budget limit</span>
+            <h3 className="text-base font-bold text-slate-900 dark:text-white">Projected Burn Rate</h3>
+            <span className="text-xs text-slate-500 dark:text-slate-400">Pacing vs monthly budget limit</span>
           </div>
         </div>
 
@@ -60,7 +60,8 @@ export const BurnRateGauge: React.FC = () => {
           <path
             d="M 10 50 A 40 40 0 0 1 90 50"
             fill="none"
-            stroke="rgba(51, 65, 85, 0.5)"
+            stroke="currentColor"
+            className="text-slate-200 dark:text-slate-800/80"
             strokeWidth="9"
             strokeLinecap="round"
           />
@@ -78,22 +79,22 @@ export const BurnRateGauge: React.FC = () => {
         </svg>
 
         <div className="text-center -mt-8">
-          <span className="text-2xl sm:text-3xl font-black text-white">
+          <span className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">
             {formatCurrency(projected, userProfile.currencySymbol)}
           </span>
-          <span className="block text-xs text-slate-400 font-medium mt-0.5">
+          <span className="block text-xs text-slate-500 dark:text-slate-400 font-medium mt-0.5">
             Projected Month-End ({percentage}% of budget)
           </span>
         </div>
       </div>
 
       {/* Comparison footer */}
-      <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+      <div className="pt-3 border-t border-slate-200 dark:border-slate-800 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5 text-slate-600 dark:text-slate-300 font-medium">
           <Target className="w-3.5 h-3.5 text-slate-400" />
           <span>Budget: {formatCurrency(budget, userProfile.currencySymbol)}</span>
         </div>
-        <span className={ratio > 1 ? 'text-rose-400 font-semibold' : 'text-emerald-400 font-semibold'}>
+        <span className={ratio > 1 ? 'text-rose-600 dark:text-rose-400 font-semibold' : 'text-emerald-600 dark:text-emerald-400 font-semibold'}>
           {summary.spentThisMonth === 0
             ? 'Full budget available'
             : ratio > 1
