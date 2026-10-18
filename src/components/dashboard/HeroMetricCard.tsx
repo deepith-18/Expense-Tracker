@@ -58,40 +58,38 @@ export const HeroMetricCard: React.FC = () => {
   const isSpendLower = summary.changePercentage <= 0;
 
   return (
-    <div className="relative overflow-hidden rounded-3xl p-6 sm:p-8 bg-gradient-to-br from-slate-900/90 via-slate-900/60 to-slate-950/90 border border-slate-800/80 shadow-2xl backdrop-blur-xl">
-      {/* Decorative gradient blur background */}
-      <div className="absolute -top-24 -right-24 w-72 h-72 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none" />
-      <div className="absolute -bottom-24 -left-24 w-72 h-72 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none" />
-
-      {/* Top row: Pill selector & Time horizon */}
+    <div className="rounded-2xl p-6 sm:p-8 bg-slate-900 border border-slate-800 shadow-sm">
+      {/* Top row: Selector & Time horizon */}
       <div className="flex flex-wrap items-center justify-between gap-3 mb-6">
-        <div className="flex items-center gap-2">
-          <span className="text-xs uppercase tracking-wider font-semibold text-slate-400">
-            Total Outflow
+        <div>
+          <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider block">
+            Total Spending
           </span>
-          <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
+          <span className="text-xs text-slate-500">
+            {new Date().toLocaleString('default', { month: 'long', year: 'numeric' })} • All accounts
+          </span>
         </div>
 
         {/* Weekly / Monthly / Yearly toggles */}
-        <div className="flex items-center p-1 bg-slate-950/80 border border-slate-800/80 rounded-2xl">
+        <div className="flex items-center p-1 bg-slate-950 border border-slate-800 rounded-xl">
           {(['week', 'month', 'year'] as const).map((r) => (
             <button
               key={r}
               onClick={() => setTimeRange(r)}
-              className={`px-3 py-1 rounded-xl text-xs font-semibold capitalize transition-all ${
+              className={`px-3 py-1 rounded-lg text-xs font-semibold capitalize transition-all ${
                 timeRange === r
-                  ? 'bg-emerald-500 text-slate-950 shadow-md font-bold'
+                  ? 'bg-emerald-500 text-slate-950 font-bold shadow-sm'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
-              {r}ly
+              {r === 'week' ? 'Week' : r === 'month' ? 'Month' : 'Year'}
             </button>
           ))}
         </div>
       </div>
 
       {/* Hero Number Display */}
-      <div className="space-y-2">
+      <div className="space-y-3">
         <div className="flex items-baseline gap-3 flex-wrap">
           <motion.h1
             key={displayValue}
@@ -101,22 +99,28 @@ export const HeroMetricCard: React.FC = () => {
           </motion.h1>
 
           {/* Month over month badge */}
-          <div
-            className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold border ${
-              isSpendLower
-                ? 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30'
-                : 'bg-rose-500/15 text-rose-400 border-rose-500/30'
-            }`}
-          >
-            {isSpendLower ? (
-              <TrendingDown className="w-3.5 h-3.5" />
-            ) : (
-              <TrendingUp className="w-3.5 h-3.5" />
-            )}
-            <span>
-              {Math.abs(summary.changePercentage)}% {isSpendLower ? 'less' : 'more'} vs last month
-            </span>
-          </div>
+          {summary.spentLastMonth > 0 ? (
+            <div
+              className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold border ${
+                isSpendLower
+                  ? 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20'
+                  : 'bg-rose-500/10 text-rose-400 border-rose-500/20'
+              }`}
+            >
+              {isSpendLower ? (
+                <TrendingDown className="w-3.5 h-3.5" />
+              ) : (
+                <TrendingUp className="w-3.5 h-3.5" />
+              )}
+              <span>
+                {Math.abs(summary.changePercentage)}% {isSpendLower ? 'less' : 'more'} vs last month
+              </span>
+            </div>
+          ) : (
+            <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-slate-800 text-slate-400 border border-slate-700">
+              <span>Current Cycle</span>
+            </div>
+          )}
         </div>
 
         {/* Time Cost Lens Sub-Hero */}
@@ -124,43 +128,43 @@ export const HeroMetricCard: React.FC = () => {
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
-            className="flex items-center gap-2 pt-2 text-amber-300 text-sm font-semibold"
+            className="flex items-center gap-2 pt-1 text-amber-300 text-sm font-medium"
           >
             <Clock className="w-4 h-4 text-amber-400" />
             <span>
-              Represents <strong className="text-amber-200 underline">{timeCost.formatted}</strong> of your life's work
+              Equivalent to <strong className="text-amber-200 font-bold">{timeCost.formatted}</strong> of your working hours
             </span>
             <button
               onClick={() => setTimeCostMode(false)}
-              className="text-xs text-slate-400 hover:text-slate-200 underline ml-2"
+              className="text-xs text-slate-400 hover:text-slate-200 underline ml-2 cursor-pointer"
             >
-              (revert to ₹)
+              (switch back)
             </button>
           </motion.div>
         ) : (
           <p className="text-xs sm:text-sm text-slate-400">
-            Total recorded spending for October 2026 across all accounts and cards
+            Total recorded outflow across bank accounts, UPI wallets, and cards
           </p>
         )}
       </div>
 
       {/* Income vs Outflow Balance Bar */}
-      <div className="mt-8 pt-6 border-t border-slate-800/80 grid grid-cols-2 sm:grid-cols-3 gap-4">
+      <div className="mt-8 pt-6 border-t border-slate-800 grid grid-cols-2 sm:grid-cols-3 gap-6">
         <div>
-          <span className="text-[11px] text-slate-400 uppercase tracking-wider block font-medium">
-            Total Inflow
+          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
+            Total Income
           </span>
-          <span className="text-base sm:text-lg font-bold text-emerald-400">
+          <span className="text-lg sm:text-xl font-bold text-emerald-400">
             +{formatCurrency(summary.incomeThisMonth, userProfile.currencySymbol)}
           </span>
         </div>
 
         <div>
-          <span className="text-[11px] text-slate-400 uppercase tracking-wider block font-medium">
+          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
             Net Savings
           </span>
           <span
-            className={`text-base sm:text-lg font-bold ${
+            className={`text-lg sm:text-xl font-bold ${
               summary.incomeThisMonth >= summary.spentThisMonth ? 'text-teal-400' : 'text-rose-400'
             }`}
           >
@@ -169,10 +173,10 @@ export const HeroMetricCard: React.FC = () => {
         </div>
 
         <div className="col-span-2 sm:col-span-1">
-          <span className="text-[11px] text-slate-400 uppercase tracking-wider block font-medium">
-            Monthly Target
+          <span className="text-xs text-slate-400 uppercase tracking-wider block font-medium mb-1">
+            Monthly Target Budget
           </span>
-          <span className="text-base sm:text-lg font-bold text-slate-200">
+          <span className="text-lg sm:text-xl font-bold text-white">
             {formatCurrency(userProfile.overallMonthlyBudget, userProfile.currencySymbol)}
           </span>
         </div>

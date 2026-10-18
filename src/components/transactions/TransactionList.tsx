@@ -133,12 +133,31 @@ export const TransactionList: React.FC = () => {
 
       {/* Transaction List Cards */}
       <div className="space-y-2.5">
-        {sorted.length === 0 ? (
+        {transactions.length === 0 ? (
+          <div className="py-16 text-center bg-slate-900/40 rounded-3xl border border-dashed border-slate-800 p-8 space-y-3">
+            <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 flex items-center justify-center mx-auto">
+              <Plus className="w-6 h-6" />
+            </div>
+            <h4 className="text-base font-bold text-white">No Transactions Recorded Yet</h4>
+            <p className="text-xs text-slate-400 max-w-sm mx-auto leading-relaxed">
+              Your ledger is completely clean. Tap the "Add Expense" button below or use Quick Text Add to record your real daily expenses.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => setKeypadOpen(true)}
+                className="inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-500 text-slate-950 text-xs font-bold rounded-xl shadow hover:bg-emerald-400 transition-all"
+              >
+                <Plus className="w-4 h-4" />
+                <span>Record First Expense</span>
+              </button>
+            </div>
+          </div>
+        ) : sorted.length === 0 ? (
           <div className="py-16 text-center bg-slate-900/40 rounded-3xl border border-dashed border-slate-800 p-8">
             <TagIcon className="w-8 h-8 text-slate-600 mx-auto mb-3" />
             <h4 className="text-sm font-bold text-slate-300">No transactions match your filters</h4>
             <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">
-              Try adjusting your search terms or tap the Quick Add (+) button to record a new expense.
+              Try adjusting your search terms or category filters to view matching entries.
             </p>
           </div>
         ) : (
@@ -234,18 +253,18 @@ export const TransactionList: React.FC = () => {
                   </div>
 
                   {/* Edit and Delete Buttons */}
-                  <div className="flex items-center gap-1 opacity-80 sm:opacity-0 group-hover:opacity-100 transition-opacity">
+                  <div className="flex items-center gap-1">
                     <button
                       onClick={() => setKeypadOpen(true, tx)}
                       title="Edit transaction"
-                      className="p-1.5 rounded-xl hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
+                      className="p-1.5 rounded-lg hover:bg-slate-800 text-slate-400 hover:text-white transition-colors"
                     >
                       <Edit2 className="w-4 h-4" />
                     </button>
                     <button
                       onClick={() => deleteTransaction(tx.id)}
                       title="Delete transaction (with Undo)"
-                      className="p-1.5 rounded-xl hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors"
+                      className="p-1.5 rounded-lg hover:bg-rose-500/20 text-slate-400 hover:text-rose-400 transition-colors"
                     >
                       <Trash2 className="w-4 h-4" />
                     </button>

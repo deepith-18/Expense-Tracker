@@ -26,7 +26,7 @@ export const NaturalLanguageAddModal: React.FC = () => {
     userProfile,
   } = useExpenseStore();
 
-  const [input, setInput] = useState('chai 40 and auto 120 yesterday');
+  const [input, setInput] = useState('');
   const [parsedItems, setParsedItems] = useState<ParsedItem[]>([]);
   const [isListening, setIsListening] = useState(false);
 
@@ -116,20 +116,20 @@ export const NaturalLanguageAddModal: React.FC = () => {
           className="w-full max-w-xl bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col"
         >
           {/* Header */}
-          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800/80">
+          <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800">
             <div className="flex items-center gap-2.5">
               <div className="p-2 rounded-xl bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
                 <MessageSquareCode className="w-5 h-5" />
               </div>
               <div>
-                <h3 className="font-extrabold text-base text-white">Natural Language Multi-Add</h3>
-                <span className="text-xs text-slate-400">Type or speak multiple expenses naturally</span>
+                <h3 className="font-bold text-base text-white">Quick Text Add</h3>
+                <span className="text-xs text-slate-400">Type or dictate multiple expenses in plain text</span>
               </div>
             </div>
 
             <button
               onClick={() => setNlpModalOpen(false)}
-              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800"
+              className="p-1.5 rounded-xl text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
             >
               <X className="w-5 h-5" />
             </button>
@@ -180,9 +180,8 @@ export const NaturalLanguageAddModal: React.FC = () => {
             {/* Live Parsed Preview Cards */}
             <div>
               <div className="flex items-center justify-between mb-2">
-                <span className="text-xs font-bold text-slate-400 uppercase tracking-wider flex items-center gap-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  Recognized Items ({parsedItems.length})
+                <span className="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                  Parsed Items ({parsedItems.length})
                 </span>
                 {parsedItems.length > 0 && (
                   <span className="text-xs text-emerald-400 font-bold">
@@ -192,8 +191,8 @@ export const NaturalLanguageAddModal: React.FC = () => {
               </div>
 
               {parsedItems.length === 0 ? (
-                <div className="py-6 text-center text-slate-500 text-xs border border-dashed border-slate-800 rounded-2xl">
-                  Type an expression like "chai 40 and auto 120 yesterday" above to see parsed cards.
+                <div className="py-6 text-center text-slate-400 text-xs border border-dashed border-slate-800 rounded-2xl">
+                  Type an expression like "chai 40 and auto 120 yesterday" above to preview parsed items.
                 </div>
               ) : (
                 <div className="space-y-2 max-h-48 overflow-y-auto pr-1">
@@ -244,14 +243,14 @@ export const NaturalLanguageAddModal: React.FC = () => {
             <button
               onClick={handleCommit}
               disabled={parsedItems.length === 0}
-              className={`w-full py-3.5 rounded-2xl font-black text-sm tracking-wide transition-all flex items-center justify-center gap-2 shadow-lg ${
+              className={`w-full py-3.5 rounded-2xl font-bold text-sm tracking-wide transition-all flex items-center justify-center gap-2 shadow-sm ${
                 parsedItems.length > 0
-                  ? 'bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-400 hover:to-purple-400 text-white shadow-indigo-500/25 active:scale-95'
+                  ? 'bg-emerald-500 hover:bg-emerald-400 text-slate-950 active:scale-95'
                   : 'bg-slate-800 text-slate-500 cursor-not-allowed'
               }`}
             >
-              <CheckCircle2 className="w-5 h-5" />
-              <span>Commit {parsedItems.length} Expense{parsedItems.length > 1 ? 's' : ''} Instantly</span>
+              <CheckCircle2 className="w-4 h-4" />
+              <span>Save {parsedItems.length} Transaction{parsedItems.length > 1 ? 's' : ''}</span>
             </button>
           </div>
         </motion.div>

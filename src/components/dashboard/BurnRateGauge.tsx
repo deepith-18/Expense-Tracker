@@ -18,7 +18,10 @@ export const BurnRateGauge: React.FC = () => {
   let badgeColor = 'bg-emerald-500/10 text-emerald-400 border-emerald-500/20';
   let label = 'On Track';
 
-  if (ratio > 1.15) {
+  if (summary.spentThisMonth === 0) {
+    badgeColor = 'bg-slate-800 text-slate-300 border-slate-700';
+    label = 'Zero Outflow';
+  } else if (ratio > 1.15) {
     color = 'from-rose-500 to-red-600';
     badgeColor = 'bg-rose-500/10 text-rose-400 border-rose-500/20';
     label = 'Over-Budget Burn';
@@ -33,19 +36,19 @@ export const BurnRateGauge: React.FC = () => {
   const strokeDashoffset = 251.2 - (251.2 * gaugePercent) / 100;
 
   return (
-    <div className="rounded-3xl p-6 bg-slate-900/80 border border-slate-800/80 shadow-xl backdrop-blur-xl flex flex-col justify-between">
+    <div className="rounded-2xl p-6 bg-slate-900 border border-slate-800 shadow-sm flex flex-col justify-between">
       <div className="flex items-center justify-between mb-2">
         <div className="flex items-center gap-2.5">
-          <div className="p-2.5 rounded-2xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
+          <div className="p-2 rounded-xl bg-amber-500/10 text-amber-400 border border-amber-500/20">
             <Flame className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-200">Burn Rate Velocity</h3>
-            <span className="text-xs text-slate-400">Trajectory vs Budget</span>
+            <h3 className="text-base font-bold text-white">Projected Burn Rate</h3>
+            <span className="text-xs text-slate-400">Pacing vs monthly budget limit</span>
           </div>
         </div>
 
-        <span className={`px-2.5 py-1 rounded-full text-xs font-bold border ${badgeColor}`}>
+        <span className={`px-2.5 py-1 rounded-full text-xs font-semibold border ${badgeColor}`}>
           {label}
         </span>
       </div>
@@ -57,7 +60,7 @@ export const BurnRateGauge: React.FC = () => {
           <path
             d="M 10 50 A 40 40 0 0 1 90 50"
             fill="none"
-            stroke="rgba(51, 65, 85, 0.4)"
+            stroke="rgba(51, 65, 85, 0.5)"
             strokeWidth="9"
             strokeLinecap="round"
           />
@@ -78,21 +81,23 @@ export const BurnRateGauge: React.FC = () => {
           <span className="text-2xl sm:text-3xl font-black text-white">
             {formatCurrency(projected, userProfile.currencySymbol)}
           </span>
-          <span className="block text-[11px] text-slate-400 font-medium">
-            Projected Month-End ({percentage}% of cap)
+          <span className="block text-xs text-slate-400 font-medium mt-0.5">
+            Projected Month-End ({percentage}% of budget)
           </span>
         </div>
       </div>
 
       {/* Comparison footer */}
-      <div className="pt-3 border-t border-slate-800/60 flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 text-slate-400">
-          <Target className="w-3.5 h-3.5 text-slate-500" />
+      <div className="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
+        <div className="flex items-center gap-1.5 text-slate-300 font-medium">
+          <Target className="w-3.5 h-3.5 text-slate-400" />
           <span>Budget: {formatCurrency(budget, userProfile.currencySymbol)}</span>
         </div>
         <span className={ratio > 1 ? 'text-rose-400 font-semibold' : 'text-emerald-400 font-semibold'}>
-          {ratio > 1
-            ? `+${formatCurrency(projected - budget, userProfile.currencySymbol)} surplus spend`
+          {summary.spentThisMonth === 0
+            ? 'Full budget available'
+            : ratio > 1
+            ? `+${formatCurrency(projected - budget, userProfile.currencySymbol)} over budget`
             : `${formatCurrency(budget - projected, userProfile.currencySymbol)} under budget`}
         </span>
       </div>

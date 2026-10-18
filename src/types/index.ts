@@ -67,7 +67,8 @@ export type PersonaType =
 export interface SpendingPersonality {
   type: PersonaType;
   title: string;
-  emoji: string;
+  icon: string; // Lucide icon identifier
+  emoji?: string;
   badge: string;
   description: string;
   statsHighlight: string;
@@ -96,6 +97,7 @@ export interface UserProfile {
   monthlyIncome: number;
   workHoursPerMonth: number; // default 160 hrs
   overallMonthlyBudget: number;
+  dailyBudgetLimit?: number;
   streakDays: number;
   noSpendDaysCount: number;
   lastActiveDate: string;

@@ -20,6 +20,17 @@ import {
   Home,
   AlertCircle,
   HelpCircle,
+  ShieldCheck,
+  Moon,
+  CalendarDays,
+  Compass,
+  Shield,
+  Award,
+  DollarSign,
+  CheckCheck,
+  FileText,
+  PieChart,
+  Activity,
   LucideProps,
 } from 'lucide-react';
 
@@ -43,6 +54,17 @@ const ICON_MAP: Record<string, React.ComponentType<LucideProps>> = {
   Fuel,
   Home,
   AlertCircle,
+  ShieldCheck,
+  Moon,
+  CalendarDays,
+  Compass,
+  Shield,
+  Award,
+  DollarSign,
+  CheckCheck,
+  FileText,
+  PieChart,
+  Activity,
 };
 
 interface IconHelperProps extends LucideProps {

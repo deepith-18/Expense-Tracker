@@ -138,8 +138,8 @@ export const SplitBillsHub: React.FC = () => {
         </h4>
 
         {unsettledItems.length === 0 ? (
-          <div className="p-8 text-center text-slate-500 text-xs bg-slate-950/50 rounded-2xl border border-dashed border-slate-800">
-            All split expenses are fully settled up! No one owes you anything right now. 🎉
+          <div className="p-8 text-center text-slate-400 text-sm bg-slate-950/70 rounded-2xl border border-dashed border-slate-800">
+            All split expenses are fully settled up. No outstanding balances.
           </div>
         ) : (
           unsettledItems.map((item, idx) => (

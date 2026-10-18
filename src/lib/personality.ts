@@ -9,12 +9,12 @@ export function determineSpendingPersonality(
   if (expenses.length === 0) {
     return {
       type: 'Zen Saver',
-      title: 'Zen Saver',
-      emoji: '🧘‍♂️',
-      badge: 'Master of Moderation',
-      description: 'Your outflow is peaceful, disciplined, and strictly intentional.',
-      statsHighlight: '100% savings rate',
-      actionableTip: 'Keep your emergency fund compounding in a liquid mutual fund.',
+      title: 'Awaiting Transactions',
+      icon: 'ShieldCheck',
+      badge: 'Zero Outflow',
+      description: 'No expenses recorded yet. As you log items and expenses, your spending patterns and archetype will appear here.',
+      statsHighlight: '0 expenses logged',
+      actionableTip: 'Add your first expense or income using the Add button to get started.',
     };
   }
 
@@ -53,70 +53,70 @@ export function determineSpendingPersonality(
   if (nightOrders.length >= 2) {
     return {
       type: 'Midnight Snacker',
-      title: 'Midnight Snacker',
-      emoji: '🌙🍕',
-      badge: 'Nighttime Gourmet',
-      description: 'Your appetite peaks when the moon is high. Late-night deliveries and cravings are your secret guilty pleasure.',
+      title: 'Nighttime Spending Pattern',
+      icon: 'Moon',
+      badge: 'Late Night Orders',
+      description: 'Multiple transactions logged between 10:00 PM and 5:00 AM, primarily food and delivery services.',
       statsHighlight: `${nightOrders.length} orders logged after 10 PM`,
-      actionableTip: 'Stock up your pantry with quick healthy snacks to bypass surge delivery fees.',
+      actionableTip: 'Plan groceries in advance to reduce reliance on late-night delivery and surge fees.',
     };
   }
 
   if (weekendRatio >= 0.45) {
     return {
       type: 'Weekend Warrior',
-      title: 'Weekend Warrior',
-      emoji: '🎉🍹',
-      badge: 'Friday-to-Sunday Enthusiast',
-      description: 'You live frugally Monday to Thursday, then celebrate the weekend like royalty.',
-      statsHighlight: `${Math.round(weekendRatio * 100)}% of expenses hit on weekends`,
-      actionableTip: 'Set a dedicated weekend cash pocket to keep Sunday night surprises in check.',
+      title: 'Weekend Outflow Concentration',
+      icon: 'CalendarDays',
+      badge: 'Weekend Surge',
+      description: 'Over 45% of total expenses are concentrated on Friday through Sunday.',
+      statsHighlight: `${Math.round(weekendRatio * 100)}% of expenses occur on weekends`,
+      actionableTip: 'Allocate a weekly weekend envelope to avoid exceeding your monthly allocation.',
     };
   }
 
   if (subCount >= 3) {
     return {
       type: 'Subscription Collector',
-      title: 'Subscription Collector',
-      emoji: '📦🎬',
-      badge: 'Streaming & SaaS Connoisseur',
-      description: 'You love seamless automated experiences—entertainment, cloud storage, music, and memberships.',
-      statsHighlight: `${subCount} active recurring services`,
-      actionableTip: 'Audit subscriptions every quarter; pause streaming platforms you haven’t watched in 30 days.',
+      title: 'Recurring Subscriptions',
+      icon: 'CreditCard',
+      badge: `${subCount} Active Services`,
+      description: 'Multiple automated monthly payments for streaming, utility, and SaaS platforms detected.',
+      statsHighlight: `${subCount} recurring services active`,
+      actionableTip: 'Review recurring charges each quarter and cancel services unused in the past 30 days.',
     };
   }
 
   if (cafeTrips >= 3) {
     return {
       type: 'Cafe Hopper',
-      title: 'Cafe Hopper',
-      emoji: '☕🥐',
-      badge: 'Artisanal Brew Aficionado',
-      description: 'Good conversations, work sprints, and artisanal pour-overs fuel your creative momentum.',
-      statsHighlight: `${cafeTrips} cafe check-ins this month`,
-      actionableTip: 'Pairing cafe sessions with productive work sprints makes the brew well worth the investment!',
+      title: 'Daily Beverage & Dining',
+      icon: 'Coffee',
+      badge: 'Frequent Cafe Visits',
+      description: 'Frequent visits to cafes, coffee roasters, and quick snack counters throughout the week.',
+      statsHighlight: `${cafeTrips} cafe visits recorded this month`,
+      actionableTip: 'Setting a dedicated weekly cafe budget helps keep daily small expenses in balance.',
     };
   }
 
   if (savingsRate >= 0.4) {
     return {
       type: 'Zen Saver',
-      title: 'Zen Saver',
-      emoji: '🧘‍♂️💎',
-      badge: 'High-Discipline Accumulator',
-      description: 'Your wealth growth is unstoppable. You consistently save 40%+ of your income without breaking a sweat.',
+      title: 'High Savings Rate',
+      icon: 'TrendingUp',
+      badge: '40%+ Net Savings',
+      description: 'Excellent financial discipline. You are saving more than 40% of your total monthly earnings.',
       statsHighlight: `${Math.round(savingsRate * 100)}% savings rate`,
-      actionableTip: 'Ensure your surplus is automatically routed into compounding index funds or SIPs.',
+      actionableTip: 'Automate surplus transfers into diversified index funds or liquid emergency reserves.',
     };
   }
 
   return {
     type: 'Frugal Architect',
-    title: 'Frugal Architect',
-    emoji: '📐🏛️',
-    badge: 'Strategic Budgeteer',
-    description: 'You treat your finances like a balanced blueprinted structure—steady, thoughtful, and pragmatic.',
+    title: 'Balanced Allocation',
+    icon: 'Compass',
+    badge: 'Steady Trajectory',
+    description: 'Spending is evenly distributed across essential categories and daily living expenses.',
     statsHighlight: 'Consistent day-by-day distribution',
-    actionableTip: 'Consider allocating a small 5% guilt-free fun fund each month for serendipity.',
+    actionableTip: 'Maintain this pacing to finish within your monthly target ceiling.',
   };
 }

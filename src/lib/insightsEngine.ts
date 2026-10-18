@@ -79,7 +79,10 @@ export function calculateMonthSummary(
 
   // Safe to spend daily
   const remainingBudget = Math.max(0, profile.overallMonthlyBudget - spentThisMonth);
-  const safeToSpendDaily = Math.round(remainingBudget / daysRemaining);
+  let safeToSpendDaily = Math.round(remainingBudget / daysRemaining);
+  if (profile.dailyBudgetLimit && profile.dailyBudgetLimit > 0) {
+    safeToSpendDaily = Math.min(profile.dailyBudgetLimit, safeToSpendDaily);
+  }
 
   // Projected month-end spend
   const avgDailySpend = spentThisMonth / daysPassed;
@@ -116,13 +119,18 @@ export function generateSmartInsights(
   transactions: Transaction[],
   categories: Category[],
   summary: MonthSummary,
-  currencySymbol: string = '₹'
+  currencySymbol: string = '₹',
+  overallMonthlyBudget: number = 50000
 ): SmartInsight[] {
+  if (transactions.length === 0) {
+    return [];
+  }
+
   const insights: SmartInsight[] = [];
   const todayStr = new Date().toISOString().split('T')[0];
 
   // 1. Burn rate warning or achievement
-  if (summary.burnRateStatus === 'critical') {
+  if (summary.burnRateStatus === 'critical' && summary.spentThisMonth > 0) {
     insights.push({
       id: 'ins-burn-rate',
       type: 'budget_warning',
@@ -131,12 +139,12 @@ export function generateSmartInsights(
       severity: 'high',
       date: todayStr,
     });
-  } else if (summary.burnRateStatus === 'safe' && summary.daysPassed > 10) {
+  } else if (summary.burnRateStatus === 'safe' && summary.daysPassed > 10 && summary.spentThisMonth > 0) {
     insights.push({
       id: 'ins-burn-safe',
       type: 'achievement',
       title: 'Optimal Financial Pace',
-      message: `You're tracking 18% below your target ceiling. At this pace, you'll save ${currencySymbol}${Math.max(0, 55000 - summary.projectedMonthEndSpend).toLocaleString()} extra this month!`,
+      message: `You're tracking well below your target ceiling. At this pace, you'll save ${currencySymbol}${Math.max(0, overallMonthlyBudget - summary.projectedMonthEndSpend).toLocaleString()} extra this month!`,
       severity: 'success',
       date: todayStr,
     });

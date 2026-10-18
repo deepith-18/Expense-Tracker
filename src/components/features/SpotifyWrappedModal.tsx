@@ -1,48 +1,74 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Sparkles,
   X,
   ChevronRight,
   ChevronLeft,
-  Share2,
-  Trophy,
-  Flame,
   Award,
-  Check,
+  ShieldCheck,
+  TrendingUp,
+  Receipt,
+  FileCheck,
 } from 'lucide-react';
-import confetti from 'canvas-confetti';
 import { useExpenseStore } from '../../store/useExpenseStore';
 import { calculateMonthSummary } from '../../lib/insightsEngine';
 import { determineSpendingPersonality } from '../../lib/personality';
 import { formatCurrency } from '../../lib/currency';
+import { IconHelper } from '../common/IconHelper';
 
 export const SpotifyWrappedModal: React.FC = () => {
-  const { isWrappedOpen, setWrappedOpen, transactions, userProfile } = useExpenseStore();
+  const { isWrappedOpen, setWrappedOpen, setKeypadOpen, transactions, userProfile } = useExpenseStore();
   const [currentSlide, setCurrentSlide] = useState(0);
+
+  const expenses = transactions.filter((t) => t.type === 'expense');
+
+  if (!isWrappedOpen) return null;
+
+  if (expenses.length === 0) {
+    return (
+      <AnimatePresence>
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl p-6 text-white text-center space-y-4"
+          >
+            <div className="flex justify-end">
+              <button
+                onClick={() => setWrappedOpen(false)}
+                className="p-1.5 rounded-full text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+              <Receipt className="w-7 h-7" />
+            </div>
+            <h3 className="text-xl font-bold text-white">Monthly Spending Summary</h3>
+            <p className="text-xs text-slate-400 max-w-xs mx-auto leading-relaxed">
+              No transactions recorded for this month yet. Once you start logging expenses, this report will dynamically highlight your top outflows, no-spend streaks, and spending archetypes.
+            </p>
+            <div className="pt-2">
+              <button
+                onClick={() => {
+                  setWrappedOpen(false);
+                  setKeypadOpen(true);
+                }}
+                className="px-5 py-2.5 bg-emerald-500 text-slate-950 font-bold text-xs rounded-xl shadow hover:bg-emerald-400 transition-all"
+              >
+                Record First Expense
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      </AnimatePresence>
+    );
+  }
 
   const summary = calculateMonthSummary(transactions, userProfile);
   const personality = determineSpendingPersonality(transactions, userProfile.monthlyIncome);
-
-  // Highest expense (splurge)
-  const expenses = transactions.filter((t) => t.type === 'expense');
-  const biggestSplurge = [...expenses].sort((a, b) => b.amount - a.amount)[0] || {
-    amount: 15000,
-    merchant: 'Zerodha Index Fund',
-    date: 'Oct 2',
-  };
-
-  useEffect(() => {
-    if (isWrappedOpen) {
-      confetti({
-        particleCount: 70,
-        spread: 80,
-        origin: { y: 0.6 },
-      });
-    }
-  }, [isWrappedOpen]);
-
-  if (!isWrappedOpen) return null;
+  const biggestSplurge = [...expenses].sort((a, b) => b.amount - a.amount)[0];
 
   const totalSlides = 4;
 
@@ -50,7 +76,6 @@ export const SpotifyWrappedModal: React.FC = () => {
     if (currentSlide < totalSlides - 1) {
       setCurrentSlide(currentSlide + 1);
     } else {
-      confetti({ particleCount: 100, spread: 100 });
       setWrappedOpen(false);
       setCurrentSlide(0);
     }
@@ -64,20 +89,20 @@ export const SpotifyWrappedModal: React.FC = () => {
 
   return (
     <AnimatePresence>
-      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/85 backdrop-blur-xl">
+      <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
         <motion.div
-          initial={{ opacity: 0, scale: 0.9, y: 30 }}
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.9, y: 30 }}
-          className="w-full max-w-sm sm:max-w-md h-[580px] bg-gradient-to-br from-slate-950 via-purple-950 to-indigo-950 rounded-3xl shadow-2xl overflow-hidden border border-purple-500/30 flex flex-col justify-between relative p-6 text-white"
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="w-full max-w-md bg-slate-900 border border-slate-800 rounded-3xl shadow-2xl overflow-hidden flex flex-col justify-between relative p-6 text-white min-h-[500px]"
         >
-          {/* Top Story Progress Bars */}
+          {/* Top Progress Bars */}
           <div className="flex gap-1.5 z-10">
             {Array.from({ length: totalSlides }).map((_, i) => (
-              <div key={i} className="h-1 flex-1 bg-white/20 rounded-full overflow-hidden">
+              <div key={i} className="h-1 flex-1 bg-slate-800 rounded-full overflow-hidden">
                 <div
-                  className={`h-full bg-white transition-all duration-300 ${
-                    i < currentSlide ? 'w-full' : i === currentSlide ? 'w-full animate-pulse' : 'w-0'
+                  className={`h-full bg-emerald-500 transition-all duration-300 ${
+                    i <= currentSlide ? 'w-full' : 'w-0'
                   }`}
                 />
               </div>
@@ -90,103 +115,106 @@ export const SpotifyWrappedModal: React.FC = () => {
               setWrappedOpen(false);
               setCurrentSlide(0);
             }}
-            className="absolute top-5 right-5 z-20 p-2 rounded-full bg-black/40 hover:bg-black/60 text-white/80 hover:text-white"
+            className="absolute top-5 right-5 z-20 p-2 rounded-xl bg-slate-800/80 hover:bg-slate-750 text-slate-400 hover:text-white transition-colors"
           >
             <X className="w-5 h-5" />
           </button>
 
           {/* Slide Content */}
-          <div className="my-auto text-center px-2 py-4">
+          <div className="my-auto text-center px-4 py-6">
             {currentSlide === 0 && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <span className="text-[11px] uppercase tracking-widest font-black px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
-                  SpendSense Wrapped 2026
+                <div className="w-14 h-14 rounded-2xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center mx-auto">
+                  <Receipt className="w-7 h-7" />
+                </div>
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block">
+                  Monthly Review • October 2026
                 </span>
-                <h2 className="text-3xl font-black tracking-tight mt-2">
-                  Your Total Outflow
+                <h2 className="text-2xl font-bold text-white">
+                  Total Monthly Outflow
                 </h2>
-                <div className="text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 py-2">
+                <div className="text-4xl sm:text-5xl font-black text-emerald-400 py-1">
                   {formatCurrency(summary.spentThisMonth, userProfile.currencySymbol)}
                 </div>
-                <p className="text-sm text-slate-300 max-w-xs mx-auto">
+                <p className="text-sm text-slate-300 max-w-xs mx-auto leading-relaxed">
                   {summary.changePercentage <= 0
-                    ? `You spent ${Math.abs(summary.changePercentage)}% less than last month! Super disciplined.`
-                    : `Tracked across ${transactions.length} total entries with automated categorization.`}
+                    ? `Expenses are down ${Math.abs(summary.changePercentage)}% compared to last month.`
+                    : `Recorded across ${transactions.length} total ledger transactions.`}
                 </p>
               </motion.div>
             )}
 
             {currentSlide === 1 && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <div className="w-16 h-16 rounded-3xl bg-rose-500/20 border border-rose-500/40 flex items-center justify-center mx-auto text-rose-400 text-2xl shadow-xl">
-                  👑
+                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 border border-indigo-500/20 text-indigo-400 flex items-center justify-center mx-auto">
+                  <Award className="w-7 h-7" />
                 </div>
-                <span className="text-[11px] uppercase tracking-widest font-black text-rose-300 block">
-                  Top Splurge of the Month
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block">
+                  Outflow Highlight
                 </span>
-                <h2 className="text-2xl font-black text-white">
-                  {biggestSplurge.merchant || 'Special Outflow'}
+                <h2 className="text-2xl font-bold text-white">
+                  {biggestSplurge.merchant || 'Major Transaction'}
                 </h2>
-                <div className="text-4xl font-black text-rose-400">
+                <div className="text-4xl font-black text-white">
                   {formatCurrency(biggestSplurge.amount, userProfile.currencySymbol)}
                 </div>
-                <p className="text-xs text-slate-300">
-                  Logged on {biggestSplurge.date}. Every great portfolio allows an occasional guilt-free splurge!
+                <p className="text-sm text-slate-300 max-w-xs mx-auto">
+                  Single largest recorded transaction for this month, logged on {biggestSplurge.date}.
                 </p>
               </motion.div>
             )}
 
             {currentSlide === 2 && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <div className="w-16 h-16 rounded-3xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center mx-auto text-emerald-400 text-2xl shadow-xl">
-                  🧘
+                <div className="w-14 h-14 rounded-2xl bg-teal-500/10 border border-teal-500/20 text-teal-400 flex items-center justify-center mx-auto">
+                  <ShieldCheck className="w-7 h-7" />
                 </div>
-                <span className="text-[11px] uppercase tracking-widest font-black text-emerald-300 block">
-                  Frugal Discipline Records
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block">
+                  Budget Discipline
                 </span>
-                <div className="text-5xl font-black text-emerald-400">
+                <div className="text-4xl sm:text-5xl font-black text-teal-400">
                   {summary.noSpendDaysCount} Days
                 </div>
                 <h2 className="text-xl font-bold text-white">
-                  Zero-Spend Masterclass
+                  Zero Discretionary Spend Days
                 </h2>
-                <p className="text-xs text-slate-300 max-w-xs mx-auto">
-                  You went completely spend-free on {summary.noSpendDaysCount} separate days this month!
+                <p className="text-sm text-slate-300 max-w-xs mx-auto">
+                  You logged {summary.noSpendDaysCount} full days with zero discretionary spending this month.
                 </p>
               </motion.div>
             )}
 
             {currentSlide === 3 && (
               <motion.div
-                initial={{ opacity: 0, y: 20 }}
+                initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 className="space-y-4"
               >
-                <span className="text-5xl block animate-bounce" role="img" aria-label="persona">
-                  {personality.emoji}
+                <div className="w-14 h-14 rounded-2xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center mx-auto">
+                  <IconHelper name={personality.icon || 'Compass'} className="w-7 h-7" />
+                </div>
+                <span className="text-xs uppercase tracking-wider font-semibold text-slate-400 block">
+                  Spending Profile
                 </span>
-                <span className="text-[11px] uppercase tracking-widest font-black text-purple-300 block">
-                  Your Financial Archetype
-                </span>
-                <h2 className="text-3xl font-black text-white">
+                <h2 className="text-2xl font-bold text-white">
                   {personality.title}
                 </h2>
-                <div className="inline-block px-3 py-1 rounded-xl bg-purple-500/20 border border-purple-500/40 text-purple-200 text-xs font-bold">
+                <div className="inline-block px-3 py-1 rounded-lg bg-slate-800 text-slate-200 text-xs font-semibold border border-slate-700">
                   {personality.badge}
                 </div>
-                <p className="text-xs text-slate-300 max-w-xs mx-auto leading-relaxed">
+                <p className="text-sm text-slate-300 max-w-xs mx-auto leading-relaxed">
                   {personality.description}
                 </p>
               </motion.div>
@@ -194,22 +222,22 @@ export const SpotifyWrappedModal: React.FC = () => {
           </div>
 
           {/* Navigation Controls */}
-          <div className="flex items-center justify-between z-10 pt-4 border-t border-white/10">
+          <div className="flex items-center justify-between z-10 pt-4 border-t border-slate-800">
             <button
               onClick={handlePrev}
               disabled={currentSlide === 0}
               className={`p-2 rounded-xl transition-all ${
-                currentSlide === 0 ? 'opacity-20 cursor-not-allowed' : 'hover:bg-white/10'
+                currentSlide === 0 ? 'opacity-20 cursor-not-allowed text-slate-600' : 'hover:bg-slate-800 text-slate-300'
               }`}
             >
-              <ChevronLeft className="w-6 h-6" />
+              <ChevronLeft className="w-5 h-5" />
             </button>
 
             <button
               onClick={handleNext}
-              className="px-5 py-2.5 rounded-2xl bg-white text-slate-950 font-black text-xs flex items-center gap-2 hover:bg-slate-200 transition-all shadow-lg active:scale-95"
+              className="px-5 py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs flex items-center gap-1.5 transition-all shadow-md active:scale-95"
             >
-              <span>{currentSlide === totalSlides - 1 ? 'Finish & Celebrate' : 'Next Story'}</span>
+              <span>{currentSlide === totalSlides - 1 ? 'Close Summary' : 'Next'}</span>
               <ChevronRight className="w-4 h-4" />
             </button>
           </div>

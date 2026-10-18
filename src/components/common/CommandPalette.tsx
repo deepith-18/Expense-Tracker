@@ -32,7 +32,7 @@ export const CommandPalette: React.FC = () => {
     setTimeCostMode,
     toggleDarkMode,
     isDarkMode,
-    resetToDemoData,
+    clearAllTransactions,
   } = useExpenseStore();
 
   const [query, setQuery] = useState('');
@@ -56,8 +56,8 @@ export const CommandPalette: React.FC = () => {
   const actions = [
     {
       id: 'add-expense',
-      title: 'Add Expense (Numeric Keypad)',
-      subtitle: 'Log in under 3 seconds',
+      title: 'Add Transaction',
+      subtitle: 'Quick numeric keypad entry',
       icon: Plus,
       color: 'text-emerald-400 bg-emerald-500/10',
       run: () => {
@@ -67,8 +67,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'nlp-add',
-      title: 'Natural Language Quick Add',
-      subtitle: 'Type "chai 40 and auto 120 yesterday"',
+      title: 'Quick Text Add',
+      subtitle: 'Enter expenses in plain text (e.g., "coffee 120 and auto 80")',
       icon: MessageSquareCode,
       color: 'text-indigo-400 bg-indigo-500/10',
       run: () => {
@@ -89,8 +89,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'scan-receipt',
-      title: 'Scan Receipt / Photo OCR',
-      subtitle: 'Extract amount and merchant with Vision scanner',
+      title: 'Scan Receipt Photo',
+      subtitle: 'Extract amount and merchant from receipt image',
       icon: Camera,
       color: 'text-amber-400 bg-amber-500/10',
       run: () => {
@@ -100,8 +100,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'spotify-wrapped',
-      title: 'Monthly Spending Wrapped',
-      subtitle: 'Swipeable stories & shareable summary card',
+      title: 'Monthly Spending Summary',
+      subtitle: 'Review monthly metrics, top expense, and savings pace',
       icon: Sparkles,
       color: 'text-purple-400 bg-purple-500/10',
       run: () => {
@@ -111,8 +111,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'what-if',
-      title: 'What-If Savings Simulator',
-      subtitle: 'See yearly impact of cutbacks like 30% food delivery',
+      title: 'Savings Projection Simulator',
+      subtitle: 'Simulate the impact of category spending cutbacks',
       icon: Calculator,
       color: 'text-cyan-400 bg-cyan-500/10',
       run: () => {
@@ -122,8 +122,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'sankey',
-      title: 'Money Flow (Sankey Diagram)',
-      subtitle: 'Income → Accounts → Categories → Merchants',
+      title: 'Cash Flow Mapping',
+      subtitle: 'View paths from income sources through accounts to merchants',
       icon: GitFork,
       color: 'text-teal-400 bg-teal-500/10',
       run: () => {
@@ -133,8 +133,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'split-bills',
-      title: 'Split Bills with Friends',
-      subtitle: 'Track IOUs and settle up in 1 tap',
+      title: 'Split Bills & IOUs',
+      subtitle: 'Track shared balances and settle up',
       icon: Users,
       color: 'text-blue-400 bg-blue-500/10',
       run: () => {
@@ -144,8 +144,8 @@ export const CommandPalette: React.FC = () => {
     },
     {
       id: 'time-cost',
-      title: 'Toggle "Time Cost" Lens',
-      subtitle: 'View expenses as hours of life worked',
+      title: 'Toggle Work Hours View',
+      subtitle: 'View expenses translated into equivalent working hours',
       icon: Clock,
       color: 'text-orange-400 bg-orange-500/10',
       run: () => {
@@ -176,13 +176,13 @@ export const CommandPalette: React.FC = () => {
       },
     },
     {
-      id: 'reset-demo',
-      title: 'Reset to Rich Demo Data',
-      subtitle: 'Restore lively sample transactions and budgets',
+      id: 'clear-data',
+      title: 'Clear All Data & Start Fresh',
+      subtitle: 'Reset ledger to empty and balances to 0',
       icon: RotateCcw,
       color: 'text-rose-400 bg-rose-500/10',
       run: () => {
-        resetToDemoData();
+        clearAllTransactions();
         setCommandPaletteOpen(false);
       },
     },

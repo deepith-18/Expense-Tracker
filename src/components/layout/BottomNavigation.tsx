@@ -14,10 +14,10 @@ export const BottomNavigation: React.FC = () => {
   const { activeTab, setActiveTab, setKeypadOpen } = useExpenseStore();
 
   const navItems: { tab: ActiveTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-    { tab: 'dashboard', label: 'Hero', icon: LayoutDashboard },
-    { tab: 'transactions', label: 'Ledger', icon: ReceiptText },
+    { tab: 'dashboard', label: 'Overview', icon: LayoutDashboard },
+    { tab: 'transactions', label: 'Transactions', icon: ReceiptText },
     { tab: 'insights', label: 'Insights', icon: Sparkles },
-    { tab: 'simulator', label: 'What-If', icon: Calculator },
+    { tab: 'simulator', label: 'Simulator', icon: Calculator },
     { tab: 'sankey', label: 'Flow', icon: GitFork },
     { tab: 'split', label: 'Split', icon: Users },
   ];

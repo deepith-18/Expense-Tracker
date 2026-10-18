@@ -21,6 +21,11 @@ export const SpendTrendLine: React.FC = () => {
   const totalDays = new Date(currentYear, currentMonth + 1, 0).getDate();
 
   const curPrefix = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
+  const monthName = now.toLocaleString('default', { month: 'short' });
+
+  const currentMonthExpenses = transactions.filter(
+    (t) => t.type === 'expense' && t.date.startsWith(curPrefix)
+  );
 
   // Cumulative daily spend array
   const dailyTotals: Record<number, number> = {};
@@ -28,14 +33,12 @@ export const SpendTrendLine: React.FC = () => {
     dailyTotals[d] = 0;
   }
 
-  transactions
-    .filter((t) => t.type === 'expense' && t.date.startsWith(curPrefix))
-    .forEach((t) => {
-      const day = parseInt(t.date.split('-')[2], 10);
-      if (day) {
-        dailyTotals[day] = (dailyTotals[day] || 0) + t.amount;
-      }
-    });
+  currentMonthExpenses.forEach((t) => {
+    const day = parseInt(t.date.split('-')[2], 10);
+    if (day) {
+      dailyTotals[day] = (dailyTotals[day] || 0) + t.amount;
+    }
+  });
 
   let runningTotal = 0;
   const chartData = [];
@@ -43,7 +46,7 @@ export const SpendTrendLine: React.FC = () => {
   for (let d = 1; d <= currentDay; d++) {
     runningTotal += dailyTotals[d] || 0;
     chartData.push({
-      day: `Oct ${d}`,
+      day: `${monthName} ${d}`,
       dayNum: d,
       spent: runningTotal,
       daily: dailyTotals[d] || 0,
@@ -57,7 +60,7 @@ export const SpendTrendLine: React.FC = () => {
   for (let d = currentDay + 1; d <= totalDays; d++) {
     projectedTotal += avgDaily;
     chartData.push({
-      day: `Oct ${d}`,
+      day: `${monthName} ${d}`,
       dayNum: d,
       spent: null, // actual spent is null for future days
       projected: Math.round(projectedTotal),
@@ -65,36 +68,42 @@ export const SpendTrendLine: React.FC = () => {
   }
 
   return (
-    <div className="rounded-3xl p-6 bg-slate-900/80 border border-slate-800/80 shadow-xl backdrop-blur-xl flex flex-col justify-between">
+    <div className="rounded-2xl p-6 bg-slate-900 border border-slate-800 shadow-sm flex flex-col justify-between">
       <div className="flex items-center justify-between mb-4">
         <div className="flex items-center gap-2.5">
-          <div className="p-2.5 rounded-2xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
+          <div className="p-2 rounded-xl bg-cyan-500/10 text-cyan-400 border border-cyan-500/20">
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-sm font-bold text-slate-200">Spending Velocity Curve</h3>
-            <span className="text-xs text-slate-400">Cumulative day-by-day accumulation</span>
+            <h3 className="text-base font-bold text-white">Cumulative Spending Trend</h3>
+            <span className="text-xs text-slate-400">Day-by-day accumulated outflow</span>
           </div>
         </div>
 
         <div className="flex items-center gap-3 text-xs">
-          <div className="flex items-center gap-1.5 text-emerald-400">
+          <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
             <span>Actual Spend</span>
           </div>
-          <div className="flex items-center gap-1.5 text-slate-400">
+          <div className="flex items-center gap-1.5 text-slate-400 font-medium">
             <span className="w-2.5 h-1 border-t-2 border-dashed border-slate-400" />
             <span>Projected</span>
           </div>
         </div>
       </div>
 
-      <div className="h-64 w-full pt-2">
+      {currentMonthExpenses.length === 0 ? (
+        <div className="h-64 flex flex-col items-center justify-center text-slate-400 text-xs sm:text-sm text-center px-4">
+          <span>No expenses recorded for this month yet.</span>
+          <span className="text-slate-500 text-xs mt-1">Daily trend lines will plot automatically as you add transactions.</span>
+        </div>
+      ) : (
+        <div className="h-64 w-full pt-2">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -10, bottom: 0 }}>
             <defs>
               <linearGradient id="spendGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#10B981" stopOpacity={0.4} />
+                <stop offset="5%" stopColor="#10B981" stopOpacity={0.35} />
                 <stop offset="95%" stopColor="#10B981" stopOpacity={0.0} />
               </linearGradient>
               <linearGradient id="projGradient" x1="0" y1="0" x2="0" y2="1">
@@ -106,13 +115,13 @@ export const SpendTrendLine: React.FC = () => {
               dataKey="dayNum"
               tickLine={false}
               axisLine={false}
-              tick={{ fill: '#64748B', fontSize: 11 }}
+              tick={{ fill: '#94A3B8', fontSize: 11 }}
               interval={4}
             />
             <YAxis
               tickLine={false}
               axisLine={false}
-              tick={{ fill: '#64748B', fontSize: 11 }}
+              tick={{ fill: '#94A3B8', fontSize: 11 }}
               tickFormatter={(v) => formatCompactCurrency(v, userProfile.currencySymbol)}
             />
             <Tooltip
@@ -120,15 +129,15 @@ export const SpendTrendLine: React.FC = () => {
                 if (active && payload && payload.length) {
                   const dataPoint = payload[0].payload;
                   return (
-                    <div className="bg-slate-900/95 border border-slate-700 p-3 rounded-xl shadow-xl text-xs">
-                      <div className="font-bold text-slate-300">{dataPoint.day}</div>
+                    <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl shadow-xl text-xs">
+                      <div className="font-bold text-white">{dataPoint.day}</div>
                       {dataPoint.spent !== null ? (
                         <div className="mt-1">
-                          <div className="text-emerald-400 font-extrabold text-sm">
+                          <div className="text-emerald-400 font-bold text-sm">
                             {formatCurrency(dataPoint.spent, userProfile.currencySymbol)}
                           </div>
                           {dataPoint.daily > 0 && (
-                            <div className="text-slate-400 text-[11px] mt-0.5">
+                            <div className="text-slate-300 text-xs mt-0.5">
                               +{formatCurrency(dataPoint.daily, userProfile.currencySymbol)} on this day
                             </div>
                           )}
@@ -148,7 +157,7 @@ export const SpendTrendLine: React.FC = () => {
               type="monotone"
               dataKey="spent"
               stroke="#10B981"
-              strokeWidth={3}
+              strokeWidth={2.5}
               fillOpacity={1}
               fill="url(#spendGradient)"
             />
@@ -163,7 +172,8 @@ export const SpendTrendLine: React.FC = () => {
             />
           </AreaChart>
         </ResponsiveContainer>
-      </div>
+        </div>
+      )}
     </div>
   );
 };
