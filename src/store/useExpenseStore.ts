@@ -138,6 +138,19 @@ const initialFilters: FilterOptions = {
   type: 'all',
 };
 
+export const getEffectiveUid = (currentUser: UserAuthInfo | null): string => {
+  if (currentUser?.uid) return currentUser.uid;
+  if (typeof window !== 'undefined') {
+    let guestId = localStorage.getItem('spendsense_guest_uid');
+    if (!guestId) {
+      guestId = 'guest_' + Math.random().toString(36).substring(2, 10);
+      localStorage.setItem('spendsense_guest_uid', guestId);
+    }
+    return guestId;
+  }
+  return 'default_guest';
+};
+
 export const useExpenseStore = create<ExpenseStore>()(
   persist(
     (set, get) => ({
@@ -249,13 +262,11 @@ export const useExpenseStore = create<ExpenseStore>()(
 
         get().showToast(`Added ${newTx.type === 'income' ? '+' : '-'}₹${newTx.amount} (${newTx.merchant || 'Expense'})`);
 
-        const uid = get().currentUser?.uid;
-        if (uid) {
-          saveTransactionToFirestore(uid, newTx).catch((err) => {
-            console.error('Firestore sync error:', err);
-            get().setSyncStatus('error', err.message);
-          });
-        }
+        const uid = getEffectiveUid(get().currentUser);
+        saveTransactionToFirestore(uid, newTx).catch((err) => {
+          console.error('Firestore sync error:', err);
+          get().setSyncStatus('error', err.message);
+        });
       },
 
       addMultipleTransactions: (txsData) => {
@@ -287,13 +298,11 @@ export const useExpenseStore = create<ExpenseStore>()(
 
         get().showToast(`Added ${newTxs.length} transactions successfully!`);
 
-        const uid = get().currentUser?.uid;
-        if (uid) {
-          saveMultipleTransactionsToFirestore(uid, newTxs).catch((err) => {
-            console.error('Firestore batch sync error:', err);
-            get().setSyncStatus('error', err.message);
-          });
-        }
+        const uid = getEffectiveUid(get().currentUser);
+        saveMultipleTransactionsToFirestore(uid, newTxs).catch((err) => {
+          console.error('Firestore batch sync error:', err);
+          get().setSyncStatus('error', err.message);
+        });
       },
 
       updateTransaction: (id, updates) => {
@@ -314,8 +323,8 @@ export const useExpenseStore = create<ExpenseStore>()(
         });
         get().showToast('Transaction updated');
 
-        const uid = get().currentUser?.uid;
-        if (uid && updatedItem) {
+        const uid = getEffectiveUid(get().currentUser);
+        if (updatedItem) {
           saveTransactionToFirestore(uid, updatedItem).catch((err) => {
             console.error('Firestore update error:', err);
             get().setSyncStatus('error', err.message);
@@ -348,13 +357,11 @@ export const useExpenseStore = create<ExpenseStore>()(
           get().undoDelete();
         });
 
-        const uid = get().currentUser?.uid;
-        if (uid) {
-          deleteTransactionFromFirestore(uid, id).catch((err) => {
-            console.error('Firestore delete error:', err);
-            get().setSyncStatus('error', err.message);
-          });
-        }
+        const uid = getEffectiveUid(get().currentUser);
+        deleteTransactionFromFirestore(uid, id).catch((err) => {
+          console.error('Firestore delete error:', err);
+          get().setSyncStatus('error', err.message);
+        });
       },
 
       undoDelete: () => {
@@ -379,12 +386,10 @@ export const useExpenseStore = create<ExpenseStore>()(
 
         get().showToast('Transaction restored');
 
-        const uid = get().currentUser?.uid;
-        if (uid) {
-          saveTransactionToFirestore(uid, tx).catch((err) => {
-            console.error('Firestore restore error:', err);
-          });
-        }
+        const uid = getEffectiveUid(get().currentUser);
+        saveTransactionToFirestore(uid, tx).catch((err) => {
+          console.error('Firestore restore error:', err);
+        });
       },
 
       addCategory: (categoryData) => {
@@ -396,10 +401,8 @@ export const useExpenseStore = create<ExpenseStore>()(
         };
         set((state) => {
           const categories = [...state.categories, newCat];
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { categories }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { categories }).catch(console.error);
           return { categories };
         });
         get().showToast(`Category "${newCat.name}" added`);
@@ -410,10 +413,8 @@ export const useExpenseStore = create<ExpenseStore>()(
           const categories = state.categories.map((c) =>
             c.id === id ? { ...c, monthlyBudget: budget } : c
           );
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { categories }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { categories }).catch(console.error);
           return { categories };
         });
         get().showToast('Category budget updated');
@@ -427,10 +428,8 @@ export const useExpenseStore = create<ExpenseStore>()(
         };
         set((state) => {
           const accounts = [...state.accounts, newAcc];
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { accounts }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { accounts }).catch(console.error);
           return { accounts };
         });
         get().showToast(`Account "${newAcc.name}" created`);
@@ -439,10 +438,8 @@ export const useExpenseStore = create<ExpenseStore>()(
       updateAccountBalance: (id, balance) => {
         set((state) => {
           const accounts = state.accounts.map((a) => (a.id === id ? { ...a, balance } : a));
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { accounts }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { accounts }).catch(console.error);
           return { accounts };
         });
       },
@@ -457,10 +454,8 @@ export const useExpenseStore = create<ExpenseStore>()(
         };
         set((state) => {
           const friends = [...state.friends, newFriend];
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { friends }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { friends }).catch(console.error);
           return { friends };
         });
         get().showToast(`Friend "${name}" added`);
@@ -479,8 +474,8 @@ export const useExpenseStore = create<ExpenseStore>()(
             }
             return tx;
           });
-          const uid = state.currentUser?.uid;
-          if (uid && updatedTx) {
+          const uid = getEffectiveUid(state.currentUser);
+          if (updatedTx) {
             saveTransactionToFirestore(uid, updatedTx).catch(console.error);
           }
           return { transactions };
@@ -491,10 +486,8 @@ export const useExpenseStore = create<ExpenseStore>()(
       updateUserProfile: (updates) => {
         set((state) => {
           const userProfile = { ...state.userProfile, ...updates };
-          const uid = state.currentUser?.uid;
-          if (uid) {
-            saveSettingsToFirestore(uid, { userProfile }).catch(console.error);
-          }
+          const uid = getEffectiveUid(state.currentUser);
+          saveSettingsToFirestore(uid, { userProfile }).catch(console.error);
           return { userProfile };
         });
         get().showToast('Profile updated');

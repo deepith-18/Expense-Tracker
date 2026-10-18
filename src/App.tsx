@@ -11,7 +11,7 @@ import {
   Camera,
   Download,
 } from 'lucide-react';
-import { useExpenseStore, ActiveTab } from './store/useExpenseStore';
+import { useExpenseStore, getEffectiveUid, ActiveTab } from './store/useExpenseStore';
 
 // Layout & Common
 import { Navbar } from './components/layout/Navbar';
@@ -89,11 +89,22 @@ export const App: React.FC = () => {
         });
       } else {
         setCurrentUser(null);
-        setSyncStatus('local');
         if (unsubscribeFirestore) {
           unsubscribeFirestore();
           unsubscribeFirestore = null;
         }
+        // Listen to guest/device storage in Firestore
+        const guestUid = getEffectiveUid(null);
+        unsubscribeFirestore = subscribeToUserFirestore(guestUid, {
+          onTransactionsChange: (cloudTxs) => {
+            if (cloudTxs.length > 0) {
+              applyCloudTransactions(cloudTxs);
+            }
+          },
+          onSettingsChange: (settings) => {
+            applyCloudSettings(settings);
+          },
+        });
       }
     });
 
