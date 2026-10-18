@@ -26,6 +26,9 @@ import { BurnRateGauge } from './components/dashboard/BurnRateGauge';
 import { CategoryDonut } from './components/dashboard/CategoryDonut';
 import { SpendTrendLine } from './components/dashboard/SpendTrendLine';
 import { CalendarHeatmap } from './components/dashboard/CalendarHeatmap';
+import { CashflowComparisonChart } from './components/dashboard/CashflowComparisonChart';
+import { FinancialHealthScore } from './components/dashboard/FinancialHealthScore';
+import { DayOfWeekSpendingChart } from './components/dashboard/DayOfWeekSpendingChart';
 
 // Ledger & Quick Add Modals
 import { TransactionList } from './components/transactions/TransactionList';
@@ -58,7 +61,17 @@ export const App: React.FC = () => {
     setSyncStatus,
     applyCloudTransactions,
     applyCloudSettings,
+    isDarkMode,
   } = useExpenseStore();
+
+  // Sync dark class on document element whenever isDarkMode changes
+  React.useEffect(() => {
+    if (isDarkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [isDarkMode]);
 
   // Listen to Firebase Auth & Cloud Firestore
   React.useEffect(() => {
@@ -126,7 +139,11 @@ export const App: React.FC = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-[#090D16] text-slate-100 flex flex-col font-sans selection:bg-emerald-500/30 selection:text-emerald-200">
+    <div className={`min-h-screen flex flex-col font-sans transition-colors duration-200 ${
+      isDarkMode
+        ? 'bg-[#090D16] text-slate-100 selection:bg-emerald-500/30 selection:text-emerald-200'
+        : 'bg-slate-50 text-slate-900 selection:bg-emerald-500/30 selection:text-emerald-800'
+    }`}>
       {/* Top Navbar */}
       <Navbar />
 
@@ -185,6 +202,15 @@ export const App: React.FC = () => {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <DailySafeSpend />
               <BurnRateGauge />
+            </div>
+
+            {/* New: Cashflow Dynamics & Net Surplus Bar/Line Chart */}
+            <CashflowComparisonChart />
+
+            {/* New: Financial Health Index Dial & Weekly Rhythm Visualizer */}
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <FinancialHealthScore />
+              <DayOfWeekSpendingChart />
             </div>
 
             {/* Category Donut & Area Trend Curve */}

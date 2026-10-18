@@ -29,58 +29,72 @@ export const Navbar: React.FC = () => {
   const summary = calculateMonthSummary(transactions, userProfile);
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b border-slate-800 bg-slate-950/95 backdrop-blur-md transition-colors">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
+    <header className={`sticky top-0 z-40 w-full border-b backdrop-blur-md transition-colors duration-200 ${
+      isDarkMode
+        ? 'border-slate-800 bg-slate-950/95 text-white'
+        : 'border-slate-200 bg-white/95 text-slate-900 shadow-sm'
+    }`}>
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-2 sm:gap-4">
         {/* Brand */}
-        <div className="flex items-center gap-3">
-          <div className="w-9 h-9 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-lg shadow-sm">
+        <div className="flex items-center gap-2.5 sm:gap-3 shrink-0">
+          <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-emerald-500 text-slate-950 flex items-center justify-center font-black text-base sm:text-lg shadow-sm">
             ₹
           </div>
           <div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-lg text-white tracking-tight">
+            <div className="flex items-center gap-1.5 sm:gap-2">
+              <span className={`font-bold text-base sm:text-lg tracking-tight ${isDarkMode ? 'text-white' : 'text-slate-900'}`}>
                 SpendSense
               </span>
             </div>
-            <p className="text-xs text-slate-400 hidden sm:block">
-              Daily Safe Allowance: <span className="text-emerald-400 font-semibold">{formatCurrency(summary.safeToSpendDaily, userProfile.currencySymbol)}/day</span> <span className="text-slate-500">(Max {formatCurrency(userProfile.dailyBudgetLimit || 150, userProfile.currencySymbol)})</span>
+            <p className="text-[11px] text-slate-400 hidden lg:block">
+              Daily Safe Allowance: <span className="text-emerald-500 font-semibold">{formatCurrency(summary.safeToSpendDaily, userProfile.currencySymbol)}/day</span> <span className="text-slate-500">(Max {formatCurrency(userProfile.dailyBudgetLimit || 150, userProfile.currencySymbol)})</span>
             </p>
           </div>
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
-          {/* Work Hours View Toggle */}
+        <div className="flex items-center gap-1.5 sm:gap-3">
+          {/* Work Hours View Toggle (Desktop & Tablet) */}
           <button
             onClick={() => setTimeCostMode((prev) => !prev)}
             title="Toggle Work Hours view (shows costs in hours of your work)"
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
+            className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold transition-all border ${
               timeCostMode
                 ? 'bg-amber-500/15 text-amber-300 border-amber-500/40 shadow-sm'
-                : 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+                : isDarkMode
+                ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border-slate-200'
             }`}
           >
             <Clock className={`w-3.5 h-3.5 ${timeCostMode ? 'text-amber-400' : 'text-slate-400'}`} />
-            <span className="hidden md:inline">Work Hours View</span>
+            <span>Work Hours</span>
             <span className={`text-[10px] px-1.5 py-0.5 rounded font-bold ${timeCostMode ? 'bg-amber-400 text-slate-950' : 'bg-slate-800 text-slate-400'}`}>
               {timeCostMode ? 'ON' : 'OFF'}
             </span>
           </button>
 
-          {/* Monthly Summary Report Trigger */}
+          {/* Monthly Summary Report Trigger (Desktop) */}
           <button
             onClick={() => setWrappedOpen(true)}
-            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all active:scale-95"
+            className={`hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl text-xs font-semibold border transition-all active:scale-95 ${
+              isDarkMode
+                ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border-slate-200'
+            }`}
             title="Open Monthly Spending Summary"
           >
             <FileText className="w-3.5 h-3.5 text-indigo-400" />
-            <span className="hidden sm:inline">Monthly Summary</span>
+            <span>Summary</span>
           </button>
 
-          {/* Command Palette Button */}
+          {/* Command Palette Button (Desktop) */}
           <button
             onClick={() => setCommandPaletteOpen(true)}
-            className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium bg-slate-900 hover:bg-slate-800 text-slate-300 border border-slate-800 transition-all"
+            className={`hidden lg:flex items-center gap-2 px-3 py-1.5 rounded-xl text-xs font-medium border transition-all ${
+              isDarkMode
+                ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 border-slate-800'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 border-slate-200'
+            }`}
             title="Open Search & Command Palette (Cmd+K)"
           >
             <Search className="w-3.5 h-3.5 text-slate-400" />
@@ -88,13 +102,17 @@ export const Navbar: React.FC = () => {
             <kbd className="text-[10px] bg-slate-800 px-1.5 py-0.5 rounded border border-slate-700 font-mono text-slate-400">Cmd+K</kbd>
           </button>
 
-          {/* Theme Toggle */}
+          {/* Theme Toggle (Working smoothly in dark & light modes) */}
           <button
             onClick={toggleDarkMode}
-            className="p-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 transition-all active:scale-95"
-            title="Toggle Dark / Light Theme"
+            className={`p-2 rounded-xl border transition-all active:scale-95 ${
+              isDarkMode
+                ? 'bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border-slate-800'
+                : 'bg-slate-100 hover:bg-slate-200 text-slate-700 hover:text-slate-900 border-slate-200'
+            }`}
+            title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
           >
-            {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+            {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-indigo-500" />}
           </button>
 
           {/* Google Auth & Firestore Cloud Sync */}
@@ -103,10 +121,10 @@ export const Navbar: React.FC = () => {
           {/* Add Expense Button (Keypad Modal) */}
           <button
             onClick={() => setKeypadOpen(true)}
-            className="flex items-center gap-1.5 px-3.5 py-1.5 sm:px-4 sm:py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl shadow-sm active:scale-95 transition-all"
+            className="flex items-center gap-1.5 px-3 py-1.5 sm:px-4 sm:py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs sm:text-sm rounded-xl shadow-sm active:scale-95 transition-all shrink-0"
           >
             <Plus className="w-4 h-4 stroke-[2.5]" />
-            <span className="hidden xs:inline">Add Expense</span>
+            <span className="hidden xs:inline">Add</span>
           </button>
         </div>
       </div>
