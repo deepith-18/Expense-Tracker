@@ -39,6 +39,7 @@ export const AuthButton: React.FC = () => {
 
   const handleSignIn = async () => {
     if (!isFirebaseConfigured) {
+      showToast('Firebase credentials missing. Please set your environment variables.');
       setAuthModalOpen(true);
       return;
     }
@@ -47,7 +48,17 @@ export const AuthButton: React.FC = () => {
       setIsSigningIn(true);
       const { user, error } = await loginWithGoogle();
       if (error) {
-        showToast(`Sign in error: ${error}`);
+        if (error.includes('auth/api-key-not-valid')) {
+          showToast('Google API key invalid or deleted. Check your Google Cloud API key.');
+        } else if (error.includes('auth/unauthorized-domain')) {
+          showToast('Unauthorized domain: Add this URL to Firebase Console > Authentication > Authorized domains.');
+        } else if (error.includes('auth/popup-closed-by-user')) {
+          showToast('Sign-in cancelled (popup was closed).');
+        } else if (error.includes('auth/operation-not-allowed')) {
+          showToast('Google provider not enabled in Firebase Console > Authentication.');
+        } else {
+          showToast(`Sign in error: ${error}`);
+        }
       } else if (user) {
         showToast(`Signed in as ${user.displayName || user.email}!`);
       }
@@ -180,7 +191,7 @@ export const AuthButton: React.FC = () => {
     <button
       onClick={handleSignIn}
       disabled={isSigningIn}
-      title={isFirebaseConfigured ? 'Sign in with Google to sync to Firestore' : 'Click to configure Firebase credentials'}
+      title="Sign in with Google"
       className="flex items-center gap-2 px-3 py-1.5 rounded-xl bg-white dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-800 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800 transition-all text-xs font-semibold active:scale-95 shadow-sm"
     >
       {/* Google "G" icon */}
@@ -203,14 +214,11 @@ export const AuthButton: React.FC = () => {
         />
       </svg>
       <span className="hidden sm:inline">
-        {isSigningIn ? 'Signing In...' : isFirebaseConfigured ? 'Sign in with Google' : 'Connect Firestore'}
+        {isSigningIn ? 'Signing In...' : 'Sign in with Google'}
       </span>
       <span className="sm:hidden font-medium">
         {isSigningIn ? '...' : 'Sign In'}
       </span>
-      {!isFirebaseConfigured && (
-        <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" title="Setup needed" />
-      )}
     </button>
   );
 };
